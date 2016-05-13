@@ -1,0 +1,1021 @@
+<html>
+<head>
+<title>Titanic_Survival_Exploration.ipynb</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(248,248,242); }
+</style>
+</head>
+<BODY BGCOLOR="#272822">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Titanic_Survival_Exploration.ipynb</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0">{ 
+<a name="l2"><span class="ln">2    </span></a> &quot;cells&quot;: [ 
+<a name="l3"><span class="ln">3    </span></a>  { 
+<a name="l4"><span class="ln">4    </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l5"><span class="ln">5    </span></a>   &quot;metadata&quot;: {}, 
+<a name="l6"><span class="ln">6    </span></a>   &quot;source&quot;: [ 
+<a name="l7"><span class="ln">7    </span></a>    &quot;# Machine Learning Engineer Nanodegree\n&quot;, 
+<a name="l8"><span class="ln">8    </span></a>    &quot;## Introduction and Foundations\n&quot;, 
+<a name="l9"><span class="ln">9    </span></a>    &quot;## Project 0: Titanic Survival Exploration\n&quot;, 
+<a name="l10"><span class="ln">10   </span></a>    &quot;\n&quot;, 
+<a name="l11"><span class="ln">11   </span></a>    &quot;In 1912, the ship RMS Titanic struck an iceberg on its maiden voyage and sank, resulting in the deaths of most of its passengers and crew. In this introductory project, we will explore a subset of the RMS Titanic passenger manifest to determine which features best predict whether someone survived or did not survive. To complete this project, you will need to implement several conditional predictions and answer the questions below. Your project submission will be evaluated based on the completion of the code and your responses to the questions.\n&quot;, 
+<a name="l12"><span class="ln">12   </span></a>    &quot;&gt; **Tip:** Quoted sections like this will provide helpful instructions on how to navigate and use an iPython notebook. &quot; 
+<a name="l13"><span class="ln">13   </span></a>   ] 
+<a name="l14"><span class="ln">14   </span></a>  }, 
+<a name="l15"><span class="ln">15   </span></a>  { 
+<a name="l16"><span class="ln">16   </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l17"><span class="ln">17   </span></a>   &quot;metadata&quot;: {}, 
+<a name="l18"><span class="ln">18   </span></a>   &quot;source&quot;: [ 
+<a name="l19"><span class="ln">19   </span></a>    &quot;# Getting Started\n&quot;, 
+<a name="l20"><span class="ln">20   </span></a>    &quot;To begin working with the RMS Titanic passenger data, we'll first need to `import` the functionality we need, and load our data into a `pandas` DataFrame.  \n&quot;, 
+<a name="l21"><span class="ln">21   </span></a>    &quot;Run the code cell below to load our data and display the first few entries (passengers) for examination using the `.head()` function.\n&quot;, 
+<a name="l22"><span class="ln">22   </span></a>    &quot;&gt; **Tip:** You can run a code cell by clicking on the cell and using the keyboard shortcut **Shift + Enter** or **Shift + Return**. Alternatively, a code cell can be executed using the **Play** button in the hotbar after selecting it. Markdown cells (text cells like this one) can be edited by double-clicking, and saved using these same shortcuts. [Markdown](http://daringfireball.net/projects/markdown/syntax) allows you to write easy-to-read plain text that can be converted to HTML.&quot; 
+<a name="l23"><span class="ln">23   </span></a>   ] 
+<a name="l24"><span class="ln">24   </span></a>  }, 
+<a name="l25"><span class="ln">25   </span></a>  { 
+<a name="l26"><span class="ln">26   </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l27"><span class="ln">27   </span></a>   &quot;execution_count&quot;: 1, 
+<a name="l28"><span class="ln">28   </span></a>   &quot;metadata&quot;: { 
+<a name="l29"><span class="ln">29   </span></a>    &quot;collapsed&quot;: false 
+<a name="l30"><span class="ln">30   </span></a>   }, 
+<a name="l31"><span class="ln">31   </span></a>   &quot;outputs&quot;: [ 
+<a name="l32"><span class="ln">32   </span></a>    { 
+<a name="l33"><span class="ln">33   </span></a>     &quot;name&quot;: &quot;stderr&quot;, 
+<a name="l34"><span class="ln">34   </span></a>     &quot;output_type&quot;: &quot;stream&quot;, 
+<a name="l35"><span class="ln">35   </span></a>     &quot;text&quot;: [ 
+<a name="l36"><span class="ln">36   </span></a>      &quot;/Users/daiwei/Library/Python/2.7/lib/python/site-packages/matplotlib/font_manager.py:273: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.\n  warnings.warn('Matplotlib is building the font cache using fc-list. This may take a moment.')\n&quot; 
+<a name="l37"><span class="ln">37   </span></a>     ] 
+<a name="l38"><span class="ln">38   </span></a>    }, 
+<a name="l39"><span class="ln">39   </span></a>    { 
+<a name="l40"><span class="ln">40   </span></a>     &quot;data&quot;: { 
+<a name="l41"><span class="ln">41   </span></a>      &quot;text/html&quot;: [ 
+<a name="l42"><span class="ln">42   </span></a>       &quot;&lt;div&gt;\n&quot;, 
+<a name="l43"><span class="ln">43   </span></a>       &quot;&lt;table border=\&quot;1\&quot; class=\&quot;dataframe\&quot;&gt;\n&quot;, 
+<a name="l44"><span class="ln">44   </span></a>       &quot;  &lt;thead&gt;\n&quot;, 
+<a name="l45"><span class="ln">45   </span></a>       &quot;    &lt;tr style=\&quot;text-align: right;\&quot;&gt;\n&quot;, 
+<a name="l46"><span class="ln">46   </span></a>       &quot;      &lt;th&gt;&lt;/th&gt;\n&quot;, 
+<a name="l47"><span class="ln">47   </span></a>       &quot;      &lt;th&gt;PassengerId&lt;/th&gt;\n&quot;, 
+<a name="l48"><span class="ln">48   </span></a>       &quot;      &lt;th&gt;Survived&lt;/th&gt;\n&quot;, 
+<a name="l49"><span class="ln">49   </span></a>       &quot;      &lt;th&gt;Pclass&lt;/th&gt;\n&quot;, 
+<a name="l50"><span class="ln">50   </span></a>       &quot;      &lt;th&gt;Name&lt;/th&gt;\n&quot;, 
+<a name="l51"><span class="ln">51   </span></a>       &quot;      &lt;th&gt;Sex&lt;/th&gt;\n&quot;, 
+<a name="l52"><span class="ln">52   </span></a>       &quot;      &lt;th&gt;Age&lt;/th&gt;\n&quot;, 
+<a name="l53"><span class="ln">53   </span></a>       &quot;      &lt;th&gt;SibSp&lt;/th&gt;\n&quot;, 
+<a name="l54"><span class="ln">54   </span></a>       &quot;      &lt;th&gt;Parch&lt;/th&gt;\n&quot;, 
+<a name="l55"><span class="ln">55   </span></a>       &quot;      &lt;th&gt;Ticket&lt;/th&gt;\n&quot;, 
+<a name="l56"><span class="ln">56   </span></a>       &quot;      &lt;th&gt;Fare&lt;/th&gt;\n&quot;, 
+<a name="l57"><span class="ln">57   </span></a>       &quot;      &lt;th&gt;Cabin&lt;/th&gt;\n&quot;, 
+<a name="l58"><span class="ln">58   </span></a>       &quot;      &lt;th&gt;Embarked&lt;/th&gt;\n&quot;, 
+<a name="l59"><span class="ln">59   </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l60"><span class="ln">60   </span></a>       &quot;  &lt;/thead&gt;\n&quot;, 
+<a name="l61"><span class="ln">61   </span></a>       &quot;  &lt;tbody&gt;\n&quot;, 
+<a name="l62"><span class="ln">62   </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l63"><span class="ln">63   </span></a>       &quot;      &lt;th&gt;0&lt;/th&gt;\n&quot;, 
+<a name="l64"><span class="ln">64   </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l65"><span class="ln">65   </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l66"><span class="ln">66   </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l67"><span class="ln">67   </span></a>       &quot;      &lt;td&gt;Braund, Mr. Owen Harris&lt;/td&gt;\n&quot;, 
+<a name="l68"><span class="ln">68   </span></a>       &quot;      &lt;td&gt;male&lt;/td&gt;\n&quot;, 
+<a name="l69"><span class="ln">69   </span></a>       &quot;      &lt;td&gt;22.0&lt;/td&gt;\n&quot;, 
+<a name="l70"><span class="ln">70   </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l71"><span class="ln">71   </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l72"><span class="ln">72   </span></a>       &quot;      &lt;td&gt;A/5 21171&lt;/td&gt;\n&quot;, 
+<a name="l73"><span class="ln">73   </span></a>       &quot;      &lt;td&gt;7.2500&lt;/td&gt;\n&quot;, 
+<a name="l74"><span class="ln">74   </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l75"><span class="ln">75   </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l76"><span class="ln">76   </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l77"><span class="ln">77   </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l78"><span class="ln">78   </span></a>       &quot;      &lt;th&gt;1&lt;/th&gt;\n&quot;, 
+<a name="l79"><span class="ln">79   </span></a>       &quot;      &lt;td&gt;2&lt;/td&gt;\n&quot;, 
+<a name="l80"><span class="ln">80   </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l81"><span class="ln">81   </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l82"><span class="ln">82   </span></a>       &quot;      &lt;td&gt;Cumings, Mrs. John Bradley (Florence Briggs Th...&lt;/td&gt;\n&quot;, 
+<a name="l83"><span class="ln">83   </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l84"><span class="ln">84   </span></a>       &quot;      &lt;td&gt;38.0&lt;/td&gt;\n&quot;, 
+<a name="l85"><span class="ln">85   </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l86"><span class="ln">86   </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l87"><span class="ln">87   </span></a>       &quot;      &lt;td&gt;PC 17599&lt;/td&gt;\n&quot;, 
+<a name="l88"><span class="ln">88   </span></a>       &quot;      &lt;td&gt;71.2833&lt;/td&gt;\n&quot;, 
+<a name="l89"><span class="ln">89   </span></a>       &quot;      &lt;td&gt;C85&lt;/td&gt;\n&quot;, 
+<a name="l90"><span class="ln">90   </span></a>       &quot;      &lt;td&gt;C&lt;/td&gt;\n&quot;, 
+<a name="l91"><span class="ln">91   </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l92"><span class="ln">92   </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l93"><span class="ln">93   </span></a>       &quot;      &lt;th&gt;2&lt;/th&gt;\n&quot;, 
+<a name="l94"><span class="ln">94   </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l95"><span class="ln">95   </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l96"><span class="ln">96   </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l97"><span class="ln">97   </span></a>       &quot;      &lt;td&gt;Heikkinen, Miss. Laina&lt;/td&gt;\n&quot;, 
+<a name="l98"><span class="ln">98   </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l99"><span class="ln">99   </span></a>       &quot;      &lt;td&gt;26.0&lt;/td&gt;\n&quot;, 
+<a name="l100"><span class="ln">100  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l101"><span class="ln">101  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l102"><span class="ln">102  </span></a>       &quot;      &lt;td&gt;STON/O2. 3101282&lt;/td&gt;\n&quot;, 
+<a name="l103"><span class="ln">103  </span></a>       &quot;      &lt;td&gt;7.9250&lt;/td&gt;\n&quot;, 
+<a name="l104"><span class="ln">104  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l105"><span class="ln">105  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l106"><span class="ln">106  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l107"><span class="ln">107  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l108"><span class="ln">108  </span></a>       &quot;      &lt;th&gt;3&lt;/th&gt;\n&quot;, 
+<a name="l109"><span class="ln">109  </span></a>       &quot;      &lt;td&gt;4&lt;/td&gt;\n&quot;, 
+<a name="l110"><span class="ln">110  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l111"><span class="ln">111  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l112"><span class="ln">112  </span></a>       &quot;      &lt;td&gt;Futrelle, Mrs. Jacques Heath (Lily May Peel)&lt;/td&gt;\n&quot;, 
+<a name="l113"><span class="ln">113  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l114"><span class="ln">114  </span></a>       &quot;      &lt;td&gt;35.0&lt;/td&gt;\n&quot;, 
+<a name="l115"><span class="ln">115  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l116"><span class="ln">116  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l117"><span class="ln">117  </span></a>       &quot;      &lt;td&gt;113803&lt;/td&gt;\n&quot;, 
+<a name="l118"><span class="ln">118  </span></a>       &quot;      &lt;td&gt;53.1000&lt;/td&gt;\n&quot;, 
+<a name="l119"><span class="ln">119  </span></a>       &quot;      &lt;td&gt;C123&lt;/td&gt;\n&quot;, 
+<a name="l120"><span class="ln">120  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l121"><span class="ln">121  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l122"><span class="ln">122  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l123"><span class="ln">123  </span></a>       &quot;      &lt;th&gt;4&lt;/th&gt;\n&quot;, 
+<a name="l124"><span class="ln">124  </span></a>       &quot;      &lt;td&gt;5&lt;/td&gt;\n&quot;, 
+<a name="l125"><span class="ln">125  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l126"><span class="ln">126  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l127"><span class="ln">127  </span></a>       &quot;      &lt;td&gt;Allen, Mr. William Henry&lt;/td&gt;\n&quot;, 
+<a name="l128"><span class="ln">128  </span></a>       &quot;      &lt;td&gt;male&lt;/td&gt;\n&quot;, 
+<a name="l129"><span class="ln">129  </span></a>       &quot;      &lt;td&gt;35.0&lt;/td&gt;\n&quot;, 
+<a name="l130"><span class="ln">130  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l131"><span class="ln">131  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l132"><span class="ln">132  </span></a>       &quot;      &lt;td&gt;373450&lt;/td&gt;\n&quot;, 
+<a name="l133"><span class="ln">133  </span></a>       &quot;      &lt;td&gt;8.0500&lt;/td&gt;\n&quot;, 
+<a name="l134"><span class="ln">134  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l135"><span class="ln">135  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l136"><span class="ln">136  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l137"><span class="ln">137  </span></a>       &quot;  &lt;/tbody&gt;\n&quot;, 
+<a name="l138"><span class="ln">138  </span></a>       &quot;&lt;/table&gt;\n&quot;, 
+<a name="l139"><span class="ln">139  </span></a>       &quot;&lt;/div&gt;&quot; 
+<a name="l140"><span class="ln">140  </span></a>      ], 
+<a name="l141"><span class="ln">141  </span></a>      &quot;text/plain&quot;: [ 
+<a name="l142"><span class="ln">142  </span></a>       &quot;&lt;div&gt;\n&quot;, 
+<a name="l143"><span class="ln">143  </span></a>       &quot;&lt;table border=\&quot;1\&quot; class=\&quot;dataframe\&quot;&gt;\n&quot;, 
+<a name="l144"><span class="ln">144  </span></a>       &quot;  &lt;thead&gt;\n&quot;, 
+<a name="l145"><span class="ln">145  </span></a>       &quot;    &lt;tr style=\&quot;text-align: right;\&quot;&gt;\n&quot;, 
+<a name="l146"><span class="ln">146  </span></a>       &quot;      &lt;th&gt;&lt;/th&gt;\n&quot;, 
+<a name="l147"><span class="ln">147  </span></a>       &quot;      &lt;th&gt;PassengerId&lt;/th&gt;\n&quot;, 
+<a name="l148"><span class="ln">148  </span></a>       &quot;      &lt;th&gt;Survived&lt;/th&gt;\n&quot;, 
+<a name="l149"><span class="ln">149  </span></a>       &quot;      &lt;th&gt;Pclass&lt;/th&gt;\n&quot;, 
+<a name="l150"><span class="ln">150  </span></a>       &quot;      &lt;th&gt;Name&lt;/th&gt;\n&quot;, 
+<a name="l151"><span class="ln">151  </span></a>       &quot;      &lt;th&gt;Sex&lt;/th&gt;\n&quot;, 
+<a name="l152"><span class="ln">152  </span></a>       &quot;      &lt;th&gt;Age&lt;/th&gt;\n&quot;, 
+<a name="l153"><span class="ln">153  </span></a>       &quot;      &lt;th&gt;SibSp&lt;/th&gt;\n&quot;, 
+<a name="l154"><span class="ln">154  </span></a>       &quot;      &lt;th&gt;Parch&lt;/th&gt;\n&quot;, 
+<a name="l155"><span class="ln">155  </span></a>       &quot;      &lt;th&gt;Ticket&lt;/th&gt;\n&quot;, 
+<a name="l156"><span class="ln">156  </span></a>       &quot;      &lt;th&gt;Fare&lt;/th&gt;\n&quot;, 
+<a name="l157"><span class="ln">157  </span></a>       &quot;      &lt;th&gt;Cabin&lt;/th&gt;\n&quot;, 
+<a name="l158"><span class="ln">158  </span></a>       &quot;      &lt;th&gt;Embarked&lt;/th&gt;\n&quot;, 
+<a name="l159"><span class="ln">159  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l160"><span class="ln">160  </span></a>       &quot;  &lt;/thead&gt;\n&quot;, 
+<a name="l161"><span class="ln">161  </span></a>       &quot;  &lt;tbody&gt;\n&quot;, 
+<a name="l162"><span class="ln">162  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l163"><span class="ln">163  </span></a>       &quot;      &lt;th&gt;0&lt;/th&gt;\n&quot;, 
+<a name="l164"><span class="ln">164  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l165"><span class="ln">165  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l166"><span class="ln">166  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l167"><span class="ln">167  </span></a>       &quot;      &lt;td&gt;Braund, Mr. Owen Harris&lt;/td&gt;\n&quot;, 
+<a name="l168"><span class="ln">168  </span></a>       &quot;      &lt;td&gt;male&lt;/td&gt;\n&quot;, 
+<a name="l169"><span class="ln">169  </span></a>       &quot;      &lt;td&gt;22.0&lt;/td&gt;\n&quot;, 
+<a name="l170"><span class="ln">170  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l171"><span class="ln">171  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l172"><span class="ln">172  </span></a>       &quot;      &lt;td&gt;A/5 21171&lt;/td&gt;\n&quot;, 
+<a name="l173"><span class="ln">173  </span></a>       &quot;      &lt;td&gt;7.2500&lt;/td&gt;\n&quot;, 
+<a name="l174"><span class="ln">174  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l175"><span class="ln">175  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l176"><span class="ln">176  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l177"><span class="ln">177  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l178"><span class="ln">178  </span></a>       &quot;      &lt;th&gt;1&lt;/th&gt;\n&quot;, 
+<a name="l179"><span class="ln">179  </span></a>       &quot;      &lt;td&gt;2&lt;/td&gt;\n&quot;, 
+<a name="l180"><span class="ln">180  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l181"><span class="ln">181  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l182"><span class="ln">182  </span></a>       &quot;      &lt;td&gt;Cumings, Mrs. John Bradley (Florence Briggs Th...&lt;/td&gt;\n&quot;, 
+<a name="l183"><span class="ln">183  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l184"><span class="ln">184  </span></a>       &quot;      &lt;td&gt;38.0&lt;/td&gt;\n&quot;, 
+<a name="l185"><span class="ln">185  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l186"><span class="ln">186  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l187"><span class="ln">187  </span></a>       &quot;      &lt;td&gt;PC 17599&lt;/td&gt;\n&quot;, 
+<a name="l188"><span class="ln">188  </span></a>       &quot;      &lt;td&gt;71.2833&lt;/td&gt;\n&quot;, 
+<a name="l189"><span class="ln">189  </span></a>       &quot;      &lt;td&gt;C85&lt;/td&gt;\n&quot;, 
+<a name="l190"><span class="ln">190  </span></a>       &quot;      &lt;td&gt;C&lt;/td&gt;\n&quot;, 
+<a name="l191"><span class="ln">191  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l192"><span class="ln">192  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l193"><span class="ln">193  </span></a>       &quot;      &lt;th&gt;2&lt;/th&gt;\n&quot;, 
+<a name="l194"><span class="ln">194  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l195"><span class="ln">195  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l196"><span class="ln">196  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l197"><span class="ln">197  </span></a>       &quot;      &lt;td&gt;Heikkinen, Miss. Laina&lt;/td&gt;\n&quot;, 
+<a name="l198"><span class="ln">198  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l199"><span class="ln">199  </span></a>       &quot;      &lt;td&gt;26.0&lt;/td&gt;\n&quot;, 
+<a name="l200"><span class="ln">200  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l201"><span class="ln">201  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l202"><span class="ln">202  </span></a>       &quot;      &lt;td&gt;STON/O2. 3101282&lt;/td&gt;\n&quot;, 
+<a name="l203"><span class="ln">203  </span></a>       &quot;      &lt;td&gt;7.9250&lt;/td&gt;\n&quot;, 
+<a name="l204"><span class="ln">204  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l205"><span class="ln">205  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l206"><span class="ln">206  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l207"><span class="ln">207  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l208"><span class="ln">208  </span></a>       &quot;      &lt;th&gt;3&lt;/th&gt;\n&quot;, 
+<a name="l209"><span class="ln">209  </span></a>       &quot;      &lt;td&gt;4&lt;/td&gt;\n&quot;, 
+<a name="l210"><span class="ln">210  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l211"><span class="ln">211  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l212"><span class="ln">212  </span></a>       &quot;      &lt;td&gt;Futrelle, Mrs. Jacques Heath (Lily May Peel)&lt;/td&gt;\n&quot;, 
+<a name="l213"><span class="ln">213  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l214"><span class="ln">214  </span></a>       &quot;      &lt;td&gt;35.0&lt;/td&gt;\n&quot;, 
+<a name="l215"><span class="ln">215  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l216"><span class="ln">216  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l217"><span class="ln">217  </span></a>       &quot;      &lt;td&gt;113803&lt;/td&gt;\n&quot;, 
+<a name="l218"><span class="ln">218  </span></a>       &quot;      &lt;td&gt;53.1000&lt;/td&gt;\n&quot;, 
+<a name="l219"><span class="ln">219  </span></a>       &quot;      &lt;td&gt;C123&lt;/td&gt;\n&quot;, 
+<a name="l220"><span class="ln">220  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l221"><span class="ln">221  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l222"><span class="ln">222  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l223"><span class="ln">223  </span></a>       &quot;      &lt;th&gt;4&lt;/th&gt;\n&quot;, 
+<a name="l224"><span class="ln">224  </span></a>       &quot;      &lt;td&gt;5&lt;/td&gt;\n&quot;, 
+<a name="l225"><span class="ln">225  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l226"><span class="ln">226  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l227"><span class="ln">227  </span></a>       &quot;      &lt;td&gt;Allen, Mr. William Henry&lt;/td&gt;\n&quot;, 
+<a name="l228"><span class="ln">228  </span></a>       &quot;      &lt;td&gt;male&lt;/td&gt;\n&quot;, 
+<a name="l229"><span class="ln">229  </span></a>       &quot;      &lt;td&gt;35.0&lt;/td&gt;\n&quot;, 
+<a name="l230"><span class="ln">230  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l231"><span class="ln">231  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l232"><span class="ln">232  </span></a>       &quot;      &lt;td&gt;373450&lt;/td&gt;\n&quot;, 
+<a name="l233"><span class="ln">233  </span></a>       &quot;      &lt;td&gt;8.0500&lt;/td&gt;\n&quot;, 
+<a name="l234"><span class="ln">234  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l235"><span class="ln">235  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l236"><span class="ln">236  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l237"><span class="ln">237  </span></a>       &quot;  &lt;/tbody&gt;\n&quot;, 
+<a name="l238"><span class="ln">238  </span></a>       &quot;&lt;/table&gt;\n&quot;, 
+<a name="l239"><span class="ln">239  </span></a>       &quot;&lt;/div&gt;&quot; 
+<a name="l240"><span class="ln">240  </span></a>      ] 
+<a name="l241"><span class="ln">241  </span></a>     }, 
+<a name="l242"><span class="ln">242  </span></a>     &quot;execution_count&quot;: 0, 
+<a name="l243"><span class="ln">243  </span></a>     &quot;metadata&quot;: {}, 
+<a name="l244"><span class="ln">244  </span></a>     &quot;output_type&quot;: &quot;execute_result&quot; 
+<a name="l245"><span class="ln">245  </span></a>    } 
+<a name="l246"><span class="ln">246  </span></a>   ], 
+<a name="l247"><span class="ln">247  </span></a>   &quot;source&quot;: [ 
+<a name="l248"><span class="ln">248  </span></a>    &quot;import numpy as np\n&quot;, 
+<a name="l249"><span class="ln">249  </span></a>    &quot;import pandas as pd\n&quot;, 
+<a name="l250"><span class="ln">250  </span></a>    &quot;\n&quot;, 
+<a name="l251"><span class="ln">251  </span></a>    &quot;# RMS Titanic data visualization code \n&quot;, 
+<a name="l252"><span class="ln">252  </span></a>    &quot;from titanic_visualizations import survival_stats\n&quot;, 
+<a name="l253"><span class="ln">253  </span></a>    &quot;from IPython.display import display\n&quot;, 
+<a name="l254"><span class="ln">254  </span></a>    &quot;%matplotlib inline\n&quot;, 
+<a name="l255"><span class="ln">255  </span></a>    &quot;\n&quot;, 
+<a name="l256"><span class="ln">256  </span></a>    &quot;# Load the dataset\n&quot;, 
+<a name="l257"><span class="ln">257  </span></a>    &quot;in_file = 'titanic_data.csv'\n&quot;, 
+<a name="l258"><span class="ln">258  </span></a>    &quot;full_data = pd.read_csv(in_file)\n&quot;, 
+<a name="l259"><span class="ln">259  </span></a>    &quot;\n&quot;, 
+<a name="l260"><span class="ln">260  </span></a>    &quot;# Print the first few entries of the RMS Titanic data\n&quot;, 
+<a name="l261"><span class="ln">261  </span></a>    &quot;display(full_data.head())&quot; 
+<a name="l262"><span class="ln">262  </span></a>   ] 
+<a name="l263"><span class="ln">263  </span></a>  }, 
+<a name="l264"><span class="ln">264  </span></a>  { 
+<a name="l265"><span class="ln">265  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l266"><span class="ln">266  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l267"><span class="ln">267  </span></a>   &quot;source&quot;: [ 
+<a name="l268"><span class="ln">268  </span></a>    &quot;From a sample of the RMS Titanic data, we can see the various features present for each passenger on the ship:\n&quot;, 
+<a name="l269"><span class="ln">269  </span></a>    &quot;- **Survived**: Outcome of survival (0 = No; 1 = Yes)\n&quot;, 
+<a name="l270"><span class="ln">270  </span></a>    &quot;- **Pclass**: Socio-economic class (1 = Upper class; 2 = Middle class; 3 = Lower class)\n&quot;, 
+<a name="l271"><span class="ln">271  </span></a>    &quot;- **Name**: Name of passenger\n&quot;, 
+<a name="l272"><span class="ln">272  </span></a>    &quot;- **Sex**: Sex of the passenger\n&quot;, 
+<a name="l273"><span class="ln">273  </span></a>    &quot;- **Age**: Age of the passenger (Some entries contain `NaN`)\n&quot;, 
+<a name="l274"><span class="ln">274  </span></a>    &quot;- **SibSp**: Number of siblings and spouses of the passenger aboard\n&quot;, 
+<a name="l275"><span class="ln">275  </span></a>    &quot;- **Parch**: Number of parents and children of the passenger aboard\n&quot;, 
+<a name="l276"><span class="ln">276  </span></a>    &quot;- **Ticket**: Ticket number of the passenger\n&quot;, 
+<a name="l277"><span class="ln">277  </span></a>    &quot;- **Fare**: Fare paid by the passenger\n&quot;, 
+<a name="l278"><span class="ln">278  </span></a>    &quot;- **Cabin** Cabin number of the passenger (Some entries contain `NaN`)\n&quot;, 
+<a name="l279"><span class="ln">279  </span></a>    &quot;- **Embarked**: Port of embarkation of the passenger (C = Cherbourg; Q = Queenstown; S = Southampton)\n&quot;, 
+<a name="l280"><span class="ln">280  </span></a>    &quot;\n&quot;, 
+<a name="l281"><span class="ln">281  </span></a>    &quot;Since we're interested in the outcome of survival for each passenger or crew member, we can remove the **Survived** feature from this dataset and store it as its own separate variable `outcomes`. We will use these outcomes as our prediction targets.  \n&quot;, 
+<a name="l282"><span class="ln">282  </span></a>    &quot;Run the code cell below to remove **Survived** as a feature of the dataset and store it in `outcomes`.&quot; 
+<a name="l283"><span class="ln">283  </span></a>   ] 
+<a name="l284"><span class="ln">284  </span></a>  }, 
+<a name="l285"><span class="ln">285  </span></a>  { 
+<a name="l286"><span class="ln">286  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l287"><span class="ln">287  </span></a>   &quot;execution_count&quot;: 2, 
+<a name="l288"><span class="ln">288  </span></a>   &quot;metadata&quot;: { 
+<a name="l289"><span class="ln">289  </span></a>    &quot;collapsed&quot;: false 
+<a name="l290"><span class="ln">290  </span></a>   }, 
+<a name="l291"><span class="ln">291  </span></a>   &quot;outputs&quot;: [ 
+<a name="l292"><span class="ln">292  </span></a>    { 
+<a name="l293"><span class="ln">293  </span></a>     &quot;data&quot;: { 
+<a name="l294"><span class="ln">294  </span></a>      &quot;text/html&quot;: [ 
+<a name="l295"><span class="ln">295  </span></a>       &quot;&lt;div&gt;\n&quot;, 
+<a name="l296"><span class="ln">296  </span></a>       &quot;&lt;table border=\&quot;1\&quot; class=\&quot;dataframe\&quot;&gt;\n&quot;, 
+<a name="l297"><span class="ln">297  </span></a>       &quot;  &lt;thead&gt;\n&quot;, 
+<a name="l298"><span class="ln">298  </span></a>       &quot;    &lt;tr style=\&quot;text-align: right;\&quot;&gt;\n&quot;, 
+<a name="l299"><span class="ln">299  </span></a>       &quot;      &lt;th&gt;&lt;/th&gt;\n&quot;, 
+<a name="l300"><span class="ln">300  </span></a>       &quot;      &lt;th&gt;PassengerId&lt;/th&gt;\n&quot;, 
+<a name="l301"><span class="ln">301  </span></a>       &quot;      &lt;th&gt;Pclass&lt;/th&gt;\n&quot;, 
+<a name="l302"><span class="ln">302  </span></a>       &quot;      &lt;th&gt;Name&lt;/th&gt;\n&quot;, 
+<a name="l303"><span class="ln">303  </span></a>       &quot;      &lt;th&gt;Sex&lt;/th&gt;\n&quot;, 
+<a name="l304"><span class="ln">304  </span></a>       &quot;      &lt;th&gt;Age&lt;/th&gt;\n&quot;, 
+<a name="l305"><span class="ln">305  </span></a>       &quot;      &lt;th&gt;SibSp&lt;/th&gt;\n&quot;, 
+<a name="l306"><span class="ln">306  </span></a>       &quot;      &lt;th&gt;Parch&lt;/th&gt;\n&quot;, 
+<a name="l307"><span class="ln">307  </span></a>       &quot;      &lt;th&gt;Ticket&lt;/th&gt;\n&quot;, 
+<a name="l308"><span class="ln">308  </span></a>       &quot;      &lt;th&gt;Fare&lt;/th&gt;\n&quot;, 
+<a name="l309"><span class="ln">309  </span></a>       &quot;      &lt;th&gt;Cabin&lt;/th&gt;\n&quot;, 
+<a name="l310"><span class="ln">310  </span></a>       &quot;      &lt;th&gt;Embarked&lt;/th&gt;\n&quot;, 
+<a name="l311"><span class="ln">311  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l312"><span class="ln">312  </span></a>       &quot;  &lt;/thead&gt;\n&quot;, 
+<a name="l313"><span class="ln">313  </span></a>       &quot;  &lt;tbody&gt;\n&quot;, 
+<a name="l314"><span class="ln">314  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l315"><span class="ln">315  </span></a>       &quot;      &lt;th&gt;0&lt;/th&gt;\n&quot;, 
+<a name="l316"><span class="ln">316  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l317"><span class="ln">317  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l318"><span class="ln">318  </span></a>       &quot;      &lt;td&gt;Braund, Mr. Owen Harris&lt;/td&gt;\n&quot;, 
+<a name="l319"><span class="ln">319  </span></a>       &quot;      &lt;td&gt;male&lt;/td&gt;\n&quot;, 
+<a name="l320"><span class="ln">320  </span></a>       &quot;      &lt;td&gt;22.0&lt;/td&gt;\n&quot;, 
+<a name="l321"><span class="ln">321  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l322"><span class="ln">322  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l323"><span class="ln">323  </span></a>       &quot;      &lt;td&gt;A/5 21171&lt;/td&gt;\n&quot;, 
+<a name="l324"><span class="ln">324  </span></a>       &quot;      &lt;td&gt;7.2500&lt;/td&gt;\n&quot;, 
+<a name="l325"><span class="ln">325  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l326"><span class="ln">326  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l327"><span class="ln">327  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l328"><span class="ln">328  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l329"><span class="ln">329  </span></a>       &quot;      &lt;th&gt;1&lt;/th&gt;\n&quot;, 
+<a name="l330"><span class="ln">330  </span></a>       &quot;      &lt;td&gt;2&lt;/td&gt;\n&quot;, 
+<a name="l331"><span class="ln">331  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l332"><span class="ln">332  </span></a>       &quot;      &lt;td&gt;Cumings, Mrs. John Bradley (Florence Briggs Th...&lt;/td&gt;\n&quot;, 
+<a name="l333"><span class="ln">333  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l334"><span class="ln">334  </span></a>       &quot;      &lt;td&gt;38.0&lt;/td&gt;\n&quot;, 
+<a name="l335"><span class="ln">335  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l336"><span class="ln">336  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l337"><span class="ln">337  </span></a>       &quot;      &lt;td&gt;PC 17599&lt;/td&gt;\n&quot;, 
+<a name="l338"><span class="ln">338  </span></a>       &quot;      &lt;td&gt;71.2833&lt;/td&gt;\n&quot;, 
+<a name="l339"><span class="ln">339  </span></a>       &quot;      &lt;td&gt;C85&lt;/td&gt;\n&quot;, 
+<a name="l340"><span class="ln">340  </span></a>       &quot;      &lt;td&gt;C&lt;/td&gt;\n&quot;, 
+<a name="l341"><span class="ln">341  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l342"><span class="ln">342  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l343"><span class="ln">343  </span></a>       &quot;      &lt;th&gt;2&lt;/th&gt;\n&quot;, 
+<a name="l344"><span class="ln">344  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l345"><span class="ln">345  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l346"><span class="ln">346  </span></a>       &quot;      &lt;td&gt;Heikkinen, Miss. Laina&lt;/td&gt;\n&quot;, 
+<a name="l347"><span class="ln">347  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l348"><span class="ln">348  </span></a>       &quot;      &lt;td&gt;26.0&lt;/td&gt;\n&quot;, 
+<a name="l349"><span class="ln">349  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l350"><span class="ln">350  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l351"><span class="ln">351  </span></a>       &quot;      &lt;td&gt;STON/O2. 3101282&lt;/td&gt;\n&quot;, 
+<a name="l352"><span class="ln">352  </span></a>       &quot;      &lt;td&gt;7.9250&lt;/td&gt;\n&quot;, 
+<a name="l353"><span class="ln">353  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l354"><span class="ln">354  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l355"><span class="ln">355  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l356"><span class="ln">356  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l357"><span class="ln">357  </span></a>       &quot;      &lt;th&gt;3&lt;/th&gt;\n&quot;, 
+<a name="l358"><span class="ln">358  </span></a>       &quot;      &lt;td&gt;4&lt;/td&gt;\n&quot;, 
+<a name="l359"><span class="ln">359  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l360"><span class="ln">360  </span></a>       &quot;      &lt;td&gt;Futrelle, Mrs. Jacques Heath (Lily May Peel)&lt;/td&gt;\n&quot;, 
+<a name="l361"><span class="ln">361  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l362"><span class="ln">362  </span></a>       &quot;      &lt;td&gt;35.0&lt;/td&gt;\n&quot;, 
+<a name="l363"><span class="ln">363  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l364"><span class="ln">364  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l365"><span class="ln">365  </span></a>       &quot;      &lt;td&gt;113803&lt;/td&gt;\n&quot;, 
+<a name="l366"><span class="ln">366  </span></a>       &quot;      &lt;td&gt;53.1000&lt;/td&gt;\n&quot;, 
+<a name="l367"><span class="ln">367  </span></a>       &quot;      &lt;td&gt;C123&lt;/td&gt;\n&quot;, 
+<a name="l368"><span class="ln">368  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l369"><span class="ln">369  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l370"><span class="ln">370  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l371"><span class="ln">371  </span></a>       &quot;      &lt;th&gt;4&lt;/th&gt;\n&quot;, 
+<a name="l372"><span class="ln">372  </span></a>       &quot;      &lt;td&gt;5&lt;/td&gt;\n&quot;, 
+<a name="l373"><span class="ln">373  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l374"><span class="ln">374  </span></a>       &quot;      &lt;td&gt;Allen, Mr. William Henry&lt;/td&gt;\n&quot;, 
+<a name="l375"><span class="ln">375  </span></a>       &quot;      &lt;td&gt;male&lt;/td&gt;\n&quot;, 
+<a name="l376"><span class="ln">376  </span></a>       &quot;      &lt;td&gt;35.0&lt;/td&gt;\n&quot;, 
+<a name="l377"><span class="ln">377  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l378"><span class="ln">378  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l379"><span class="ln">379  </span></a>       &quot;      &lt;td&gt;373450&lt;/td&gt;\n&quot;, 
+<a name="l380"><span class="ln">380  </span></a>       &quot;      &lt;td&gt;8.0500&lt;/td&gt;\n&quot;, 
+<a name="l381"><span class="ln">381  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l382"><span class="ln">382  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l383"><span class="ln">383  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l384"><span class="ln">384  </span></a>       &quot;  &lt;/tbody&gt;\n&quot;, 
+<a name="l385"><span class="ln">385  </span></a>       &quot;&lt;/table&gt;\n&quot;, 
+<a name="l386"><span class="ln">386  </span></a>       &quot;&lt;/div&gt;&quot; 
+<a name="l387"><span class="ln">387  </span></a>      ], 
+<a name="l388"><span class="ln">388  </span></a>      &quot;text/plain&quot;: [ 
+<a name="l389"><span class="ln">389  </span></a>       &quot;&lt;div&gt;\n&quot;, 
+<a name="l390"><span class="ln">390  </span></a>       &quot;&lt;table border=\&quot;1\&quot; class=\&quot;dataframe\&quot;&gt;\n&quot;, 
+<a name="l391"><span class="ln">391  </span></a>       &quot;  &lt;thead&gt;\n&quot;, 
+<a name="l392"><span class="ln">392  </span></a>       &quot;    &lt;tr style=\&quot;text-align: right;\&quot;&gt;\n&quot;, 
+<a name="l393"><span class="ln">393  </span></a>       &quot;      &lt;th&gt;&lt;/th&gt;\n&quot;, 
+<a name="l394"><span class="ln">394  </span></a>       &quot;      &lt;th&gt;PassengerId&lt;/th&gt;\n&quot;, 
+<a name="l395"><span class="ln">395  </span></a>       &quot;      &lt;th&gt;Pclass&lt;/th&gt;\n&quot;, 
+<a name="l396"><span class="ln">396  </span></a>       &quot;      &lt;th&gt;Name&lt;/th&gt;\n&quot;, 
+<a name="l397"><span class="ln">397  </span></a>       &quot;      &lt;th&gt;Sex&lt;/th&gt;\n&quot;, 
+<a name="l398"><span class="ln">398  </span></a>       &quot;      &lt;th&gt;Age&lt;/th&gt;\n&quot;, 
+<a name="l399"><span class="ln">399  </span></a>       &quot;      &lt;th&gt;SibSp&lt;/th&gt;\n&quot;, 
+<a name="l400"><span class="ln">400  </span></a>       &quot;      &lt;th&gt;Parch&lt;/th&gt;\n&quot;, 
+<a name="l401"><span class="ln">401  </span></a>       &quot;      &lt;th&gt;Ticket&lt;/th&gt;\n&quot;, 
+<a name="l402"><span class="ln">402  </span></a>       &quot;      &lt;th&gt;Fare&lt;/th&gt;\n&quot;, 
+<a name="l403"><span class="ln">403  </span></a>       &quot;      &lt;th&gt;Cabin&lt;/th&gt;\n&quot;, 
+<a name="l404"><span class="ln">404  </span></a>       &quot;      &lt;th&gt;Embarked&lt;/th&gt;\n&quot;, 
+<a name="l405"><span class="ln">405  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l406"><span class="ln">406  </span></a>       &quot;  &lt;/thead&gt;\n&quot;, 
+<a name="l407"><span class="ln">407  </span></a>       &quot;  &lt;tbody&gt;\n&quot;, 
+<a name="l408"><span class="ln">408  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l409"><span class="ln">409  </span></a>       &quot;      &lt;th&gt;0&lt;/th&gt;\n&quot;, 
+<a name="l410"><span class="ln">410  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l411"><span class="ln">411  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l412"><span class="ln">412  </span></a>       &quot;      &lt;td&gt;Braund, Mr. Owen Harris&lt;/td&gt;\n&quot;, 
+<a name="l413"><span class="ln">413  </span></a>       &quot;      &lt;td&gt;male&lt;/td&gt;\n&quot;, 
+<a name="l414"><span class="ln">414  </span></a>       &quot;      &lt;td&gt;22.0&lt;/td&gt;\n&quot;, 
+<a name="l415"><span class="ln">415  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l416"><span class="ln">416  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l417"><span class="ln">417  </span></a>       &quot;      &lt;td&gt;A/5 21171&lt;/td&gt;\n&quot;, 
+<a name="l418"><span class="ln">418  </span></a>       &quot;      &lt;td&gt;7.2500&lt;/td&gt;\n&quot;, 
+<a name="l419"><span class="ln">419  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l420"><span class="ln">420  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l421"><span class="ln">421  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l422"><span class="ln">422  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l423"><span class="ln">423  </span></a>       &quot;      &lt;th&gt;1&lt;/th&gt;\n&quot;, 
+<a name="l424"><span class="ln">424  </span></a>       &quot;      &lt;td&gt;2&lt;/td&gt;\n&quot;, 
+<a name="l425"><span class="ln">425  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l426"><span class="ln">426  </span></a>       &quot;      &lt;td&gt;Cumings, Mrs. John Bradley (Florence Briggs Th...&lt;/td&gt;\n&quot;, 
+<a name="l427"><span class="ln">427  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l428"><span class="ln">428  </span></a>       &quot;      &lt;td&gt;38.0&lt;/td&gt;\n&quot;, 
+<a name="l429"><span class="ln">429  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l430"><span class="ln">430  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l431"><span class="ln">431  </span></a>       &quot;      &lt;td&gt;PC 17599&lt;/td&gt;\n&quot;, 
+<a name="l432"><span class="ln">432  </span></a>       &quot;      &lt;td&gt;71.2833&lt;/td&gt;\n&quot;, 
+<a name="l433"><span class="ln">433  </span></a>       &quot;      &lt;td&gt;C85&lt;/td&gt;\n&quot;, 
+<a name="l434"><span class="ln">434  </span></a>       &quot;      &lt;td&gt;C&lt;/td&gt;\n&quot;, 
+<a name="l435"><span class="ln">435  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l436"><span class="ln">436  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l437"><span class="ln">437  </span></a>       &quot;      &lt;th&gt;2&lt;/th&gt;\n&quot;, 
+<a name="l438"><span class="ln">438  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l439"><span class="ln">439  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l440"><span class="ln">440  </span></a>       &quot;      &lt;td&gt;Heikkinen, Miss. Laina&lt;/td&gt;\n&quot;, 
+<a name="l441"><span class="ln">441  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l442"><span class="ln">442  </span></a>       &quot;      &lt;td&gt;26.0&lt;/td&gt;\n&quot;, 
+<a name="l443"><span class="ln">443  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l444"><span class="ln">444  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l445"><span class="ln">445  </span></a>       &quot;      &lt;td&gt;STON/O2. 3101282&lt;/td&gt;\n&quot;, 
+<a name="l446"><span class="ln">446  </span></a>       &quot;      &lt;td&gt;7.9250&lt;/td&gt;\n&quot;, 
+<a name="l447"><span class="ln">447  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l448"><span class="ln">448  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l449"><span class="ln">449  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l450"><span class="ln">450  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l451"><span class="ln">451  </span></a>       &quot;      &lt;th&gt;3&lt;/th&gt;\n&quot;, 
+<a name="l452"><span class="ln">452  </span></a>       &quot;      &lt;td&gt;4&lt;/td&gt;\n&quot;, 
+<a name="l453"><span class="ln">453  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l454"><span class="ln">454  </span></a>       &quot;      &lt;td&gt;Futrelle, Mrs. Jacques Heath (Lily May Peel)&lt;/td&gt;\n&quot;, 
+<a name="l455"><span class="ln">455  </span></a>       &quot;      &lt;td&gt;female&lt;/td&gt;\n&quot;, 
+<a name="l456"><span class="ln">456  </span></a>       &quot;      &lt;td&gt;35.0&lt;/td&gt;\n&quot;, 
+<a name="l457"><span class="ln">457  </span></a>       &quot;      &lt;td&gt;1&lt;/td&gt;\n&quot;, 
+<a name="l458"><span class="ln">458  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l459"><span class="ln">459  </span></a>       &quot;      &lt;td&gt;113803&lt;/td&gt;\n&quot;, 
+<a name="l460"><span class="ln">460  </span></a>       &quot;      &lt;td&gt;53.1000&lt;/td&gt;\n&quot;, 
+<a name="l461"><span class="ln">461  </span></a>       &quot;      &lt;td&gt;C123&lt;/td&gt;\n&quot;, 
+<a name="l462"><span class="ln">462  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l463"><span class="ln">463  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l464"><span class="ln">464  </span></a>       &quot;    &lt;tr&gt;\n&quot;, 
+<a name="l465"><span class="ln">465  </span></a>       &quot;      &lt;th&gt;4&lt;/th&gt;\n&quot;, 
+<a name="l466"><span class="ln">466  </span></a>       &quot;      &lt;td&gt;5&lt;/td&gt;\n&quot;, 
+<a name="l467"><span class="ln">467  </span></a>       &quot;      &lt;td&gt;3&lt;/td&gt;\n&quot;, 
+<a name="l468"><span class="ln">468  </span></a>       &quot;      &lt;td&gt;Allen, Mr. William Henry&lt;/td&gt;\n&quot;, 
+<a name="l469"><span class="ln">469  </span></a>       &quot;      &lt;td&gt;male&lt;/td&gt;\n&quot;, 
+<a name="l470"><span class="ln">470  </span></a>       &quot;      &lt;td&gt;35.0&lt;/td&gt;\n&quot;, 
+<a name="l471"><span class="ln">471  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l472"><span class="ln">472  </span></a>       &quot;      &lt;td&gt;0&lt;/td&gt;\n&quot;, 
+<a name="l473"><span class="ln">473  </span></a>       &quot;      &lt;td&gt;373450&lt;/td&gt;\n&quot;, 
+<a name="l474"><span class="ln">474  </span></a>       &quot;      &lt;td&gt;8.0500&lt;/td&gt;\n&quot;, 
+<a name="l475"><span class="ln">475  </span></a>       &quot;      &lt;td&gt;NaN&lt;/td&gt;\n&quot;, 
+<a name="l476"><span class="ln">476  </span></a>       &quot;      &lt;td&gt;S&lt;/td&gt;\n&quot;, 
+<a name="l477"><span class="ln">477  </span></a>       &quot;    &lt;/tr&gt;\n&quot;, 
+<a name="l478"><span class="ln">478  </span></a>       &quot;  &lt;/tbody&gt;\n&quot;, 
+<a name="l479"><span class="ln">479  </span></a>       &quot;&lt;/table&gt;\n&quot;, 
+<a name="l480"><span class="ln">480  </span></a>       &quot;&lt;/div&gt;&quot; 
+<a name="l481"><span class="ln">481  </span></a>      ] 
+<a name="l482"><span class="ln">482  </span></a>     }, 
+<a name="l483"><span class="ln">483  </span></a>     &quot;execution_count&quot;: 0, 
+<a name="l484"><span class="ln">484  </span></a>     &quot;metadata&quot;: {}, 
+<a name="l485"><span class="ln">485  </span></a>     &quot;output_type&quot;: &quot;execute_result&quot; 
+<a name="l486"><span class="ln">486  </span></a>    } 
+<a name="l487"><span class="ln">487  </span></a>   ], 
+<a name="l488"><span class="ln">488  </span></a>   &quot;source&quot;: [ 
+<a name="l489"><span class="ln">489  </span></a>    &quot;# Store the 'Survived' feature in a new variable and remove it from the dataset\n&quot;, 
+<a name="l490"><span class="ln">490  </span></a>    &quot;outcomes = full_data['Survived']\n&quot;, 
+<a name="l491"><span class="ln">491  </span></a>    &quot;data = full_data.drop('Survived', axis = 1)\n&quot;, 
+<a name="l492"><span class="ln">492  </span></a>    &quot;\n&quot;, 
+<a name="l493"><span class="ln">493  </span></a>    &quot;# Show the new dataset with 'Survived' removed\n&quot;, 
+<a name="l494"><span class="ln">494  </span></a>    &quot;display(data.head())&quot; 
+<a name="l495"><span class="ln">495  </span></a>   ] 
+<a name="l496"><span class="ln">496  </span></a>  }, 
+<a name="l497"><span class="ln">497  </span></a>  { 
+<a name="l498"><span class="ln">498  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l499"><span class="ln">499  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l500"><span class="ln">500  </span></a>   &quot;source&quot;: [ 
+<a name="l501"><span class="ln">501  </span></a>    &quot;The very same sample of the RMS Titanic data now shows the **Survived** feature removed from the DataFrame. Note that `data` (the passenger data) and `outcomes` (the outcomes of survival) are now *paired*. That means for any passenger `data.loc[i]`, they have the survival outcome `outcome[i]`.\n&quot;, 
+<a name="l502"><span class="ln">502  </span></a>    &quot;\n&quot;, 
+<a name="l503"><span class="ln">503  </span></a>    &quot;To measure the performance of our predictions, we need a metric to score our predictions against the true outcomes of survival. Since we are interested in how *accurate* our predictions are, we will calculate the proportion of passengers where our prediction of their survival is correct. Run the code cell below to create our `accuracy_score` function and test a prediction on the first five passengers.  \n&quot;, 
+<a name="l504"><span class="ln">504  </span></a>    &quot;\n&quot;, 
+<a name="l505"><span class="ln">505  </span></a>    &quot;**Think:** *Out of the first five passengers, if we predict that all of them survived, what would you expect the accuracy of our predictions to be?*&quot; 
+<a name="l506"><span class="ln">506  </span></a>   ] 
+<a name="l507"><span class="ln">507  </span></a>  }, 
+<a name="l508"><span class="ln">508  </span></a>  { 
+<a name="l509"><span class="ln">509  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l510"><span class="ln">510  </span></a>   &quot;execution_count&quot;: null, 
+<a name="l511"><span class="ln">511  </span></a>   &quot;metadata&quot;: { 
+<a name="l512"><span class="ln">512  </span></a>    &quot;collapsed&quot;: false 
+<a name="l513"><span class="ln">513  </span></a>   }, 
+<a name="l514"><span class="ln">514  </span></a>   &quot;outputs&quot;: [], 
+<a name="l515"><span class="ln">515  </span></a>   &quot;source&quot;: [ 
+<a name="l516"><span class="ln">516  </span></a>    &quot;def accuracy_score(truth, pred):\n&quot;, 
+<a name="l517"><span class="ln">517  </span></a>    &quot;    \&quot;\&quot;\&quot; Returns accuracy score for input truth and predictions. \&quot;\&quot;\&quot;\n&quot;, 
+<a name="l518"><span class="ln">518  </span></a>    &quot;    \n&quot;, 
+<a name="l519"><span class="ln">519  </span></a>    &quot;    # Ensure that the number of predictions matches number of outcomes\n&quot;, 
+<a name="l520"><span class="ln">520  </span></a>    &quot;    if len(truth) == len(pred): \n&quot;, 
+<a name="l521"><span class="ln">521  </span></a>    &quot;        \n&quot;, 
+<a name="l522"><span class="ln">522  </span></a>    &quot;        # Calculate and return the accuracy as a percent\n&quot;, 
+<a name="l523"><span class="ln">523  </span></a>    &quot;        return \&quot;Predictions have an accuracy of {:.2f}%.\&quot;.format((truth == pred).mean()*100)\n&quot;, 
+<a name="l524"><span class="ln">524  </span></a>    &quot;    \n&quot;, 
+<a name="l525"><span class="ln">525  </span></a>    &quot;    else:\n&quot;, 
+<a name="l526"><span class="ln">526  </span></a>    &quot;        return \&quot;Number of predictions does not match number of outcomes!\&quot;\n&quot;, 
+<a name="l527"><span class="ln">527  </span></a>    &quot;    \n&quot;, 
+<a name="l528"><span class="ln">528  </span></a>    &quot;# Test the 'accuracy_score' function\n&quot;, 
+<a name="l529"><span class="ln">529  </span></a>    &quot;predictions = pd.Series(np.ones(5, dtype = int))\n&quot;, 
+<a name="l530"><span class="ln">530  </span></a>    &quot;print accuracy_score(outcomes[:5], predictions)&quot; 
+<a name="l531"><span class="ln">531  </span></a>   ] 
+<a name="l532"><span class="ln">532  </span></a>  }, 
+<a name="l533"><span class="ln">533  </span></a>  { 
+<a name="l534"><span class="ln">534  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l535"><span class="ln">535  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l536"><span class="ln">536  </span></a>   &quot;source&quot;: [ 
+<a name="l537"><span class="ln">537  </span></a>    &quot;&gt; **Tip:** If you save an iPython Notebook, the output from running code blocks will also be saved. However, the state of your workspace will be reset once a new session is started. Make sure that you run all of the code blocks from your previous session to reestablish variables and functions before picking up where you last left off.\n&quot;, 
+<a name="l538"><span class="ln">538  </span></a>    &quot;\n&quot;, 
+<a name="l539"><span class="ln">539  </span></a>    &quot;# Making Predictions\n&quot;, 
+<a name="l540"><span class="ln">540  </span></a>    &quot;\n&quot;, 
+<a name="l541"><span class="ln">541  </span></a>    &quot;If we were asked to make a prediction about any passenger aboard the RMS Titanic whom we knew nothing about, then the best prediction we could make would be that they did not survive. This is because we can assume that a majority of the passengers (more than 50%) did not survive the ship sinking.  \n&quot;, 
+<a name="l542"><span class="ln">542  </span></a>    &quot;The `predictions_0` function below will always predict that a passenger did not survive.&quot; 
+<a name="l543"><span class="ln">543  </span></a>   ] 
+<a name="l544"><span class="ln">544  </span></a>  }, 
+<a name="l545"><span class="ln">545  </span></a>  { 
+<a name="l546"><span class="ln">546  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l547"><span class="ln">547  </span></a>   &quot;execution_count&quot;: 8, 
+<a name="l548"><span class="ln">548  </span></a>   &quot;metadata&quot;: { 
+<a name="l549"><span class="ln">549  </span></a>    &quot;collapsed&quot;: false 
+<a name="l550"><span class="ln">550  </span></a>   }, 
+<a name="l551"><span class="ln">551  </span></a>   &quot;outputs&quot;: [], 
+<a name="l552"><span class="ln">552  </span></a>   &quot;source&quot;: [ 
+<a name="l553"><span class="ln">553  </span></a>    &quot;def predictions_0(data):\n&quot;, 
+<a name="l554"><span class="ln">554  </span></a>    &quot;    \&quot;\&quot;\&quot; Model with no features. Always predicts a passenger did not survive. \&quot;\&quot;\&quot;\n&quot;, 
+<a name="l555"><span class="ln">555  </span></a>    &quot;\n&quot;, 
+<a name="l556"><span class="ln">556  </span></a>    &quot;    predictions = []\n&quot;, 
+<a name="l557"><span class="ln">557  </span></a>    &quot;    for _, passenger in data.iterrows():\n&quot;, 
+<a name="l558"><span class="ln">558  </span></a>    &quot;        \n&quot;, 
+<a name="l559"><span class="ln">559  </span></a>    &quot;        # Predict the survival of 'passenger'\n&quot;, 
+<a name="l560"><span class="ln">560  </span></a>    &quot;        predictions.append(0)\n&quot;, 
+<a name="l561"><span class="ln">561  </span></a>    &quot;    \n&quot;, 
+<a name="l562"><span class="ln">562  </span></a>    &quot;    # Return our predictions\n&quot;, 
+<a name="l563"><span class="ln">563  </span></a>    &quot;    return pd.Series(predictions)\n&quot;, 
+<a name="l564"><span class="ln">564  </span></a>    &quot;\n&quot;, 
+<a name="l565"><span class="ln">565  </span></a>    &quot;# Make the predictions\n&quot;, 
+<a name="l566"><span class="ln">566  </span></a>    &quot;predictions = predictions_0(data)&quot; 
+<a name="l567"><span class="ln">567  </span></a>   ] 
+<a name="l568"><span class="ln">568  </span></a>  }, 
+<a name="l569"><span class="ln">569  </span></a>  { 
+<a name="l570"><span class="ln">570  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l571"><span class="ln">571  </span></a>   &quot;execution_count&quot;: null, 
+<a name="l572"><span class="ln">572  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l573"><span class="ln">573  </span></a>   &quot;outputs&quot;: [], 
+<a name="l574"><span class="ln">574  </span></a>   &quot;source&quot;: [ 
+<a name="l575"><span class="ln">575  </span></a>    &quot;### Question 1\n&quot;, 
+<a name="l576"><span class="ln">576  </span></a>    &quot;*Using the RMS Titanic data, how accurate would a prediction be that none of the passengers survived?*  \n&quot;, 
+<a name="l577"><span class="ln">577  </span></a>    &quot;**Hint:** Run the code cell below to see the accuracy of this prediction.&quot; 
+<a name="l578"><span class="ln">578  </span></a>   ] 
+<a name="l579"><span class="ln">579  </span></a>  }, 
+<a name="l580"><span class="ln">580  </span></a>  { 
+<a name="l581"><span class="ln">581  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l582"><span class="ln">582  </span></a>   &quot;execution_count&quot;: 12, 
+<a name="l583"><span class="ln">583  </span></a>   &quot;metadata&quot;: { 
+<a name="l584"><span class="ln">584  </span></a>    &quot;collapsed&quot;: false 
+<a name="l585"><span class="ln">585  </span></a>   }, 
+<a name="l586"><span class="ln">586  </span></a>   &quot;outputs&quot;: [ 
+<a name="l587"><span class="ln">587  </span></a>    { 
+<a name="l588"><span class="ln">588  </span></a>     &quot;name&quot;: &quot;stdout&quot;, 
+<a name="l589"><span class="ln">589  </span></a>     &quot;output_type&quot;: &quot;stream&quot;, 
+<a name="l590"><span class="ln">590  </span></a>     &quot;text&quot;: [ 
+<a name="l591"><span class="ln">591  </span></a>      &quot;Predictions have an accuracy of 61.62%.\n&quot; 
+<a name="l592"><span class="ln">592  </span></a>     ] 
+<a name="l593"><span class="ln">593  </span></a>    } 
+<a name="l594"><span class="ln">594  </span></a>   ], 
+<a name="l595"><span class="ln">595  </span></a>   &quot;source&quot;: [ 
+<a name="l596"><span class="ln">596  </span></a>    &quot;def predictions_0(data):\n&quot;, 
+<a name="l597"><span class="ln">597  </span></a>    &quot;    \&quot;\&quot;\&quot; Model with no features. Always predicts a passenger did not survive. \&quot;\&quot;\&quot;\n&quot;, 
+<a name="l598"><span class="ln">598  </span></a>    &quot;\n&quot;, 
+<a name="l599"><span class="ln">599  </span></a>    &quot;    predictions = []\n&quot;, 
+<a name="l600"><span class="ln">600  </span></a>    &quot;    for _, passenger in data.iterrows():\n&quot;, 
+<a name="l601"><span class="ln">601  </span></a>    &quot;        \n&quot;, 
+<a name="l602"><span class="ln">602  </span></a>    &quot;        # Predict the survival of 'passenger'\n&quot;, 
+<a name="l603"><span class="ln">603  </span></a>    &quot;        predictions.append(0)\n&quot;, 
+<a name="l604"><span class="ln">604  </span></a>    &quot;    \n&quot;, 
+<a name="l605"><span class="ln">605  </span></a>    &quot;    # Return our predictions\n&quot;, 
+<a name="l606"><span class="ln">606  </span></a>    &quot;    return pd.Series(predictions)\n&quot;, 
+<a name="l607"><span class="ln">607  </span></a>    &quot;\n&quot;, 
+<a name="l608"><span class="ln">608  </span></a>    &quot;# Make the predictions\n&quot;, 
+<a name="l609"><span class="ln">609  </span></a>    &quot;predictions = predictions_0(data)\n&quot;, 
+<a name="l610"><span class="ln">610  </span></a>    &quot;def accuracy_score(truth, pred):\n&quot;, 
+<a name="l611"><span class="ln">611  </span></a>    &quot;    \&quot;\&quot;\&quot; Returns accuracy score for input truth and predictions. \&quot;\&quot;\&quot;\n&quot;, 
+<a name="l612"><span class="ln">612  </span></a>    &quot;    \n&quot;, 
+<a name="l613"><span class="ln">613  </span></a>    &quot;    # Ensure that the number of predictions matches number of outcomes\n&quot;, 
+<a name="l614"><span class="ln">614  </span></a>    &quot;    if len(truth) == len(pred): \n&quot;, 
+<a name="l615"><span class="ln">615  </span></a>    &quot;        \n&quot;, 
+<a name="l616"><span class="ln">616  </span></a>    &quot;        # Calculate and return the accuracy as a percent\n&quot;, 
+<a name="l617"><span class="ln">617  </span></a>    &quot;        return \&quot;Predictions have an accuracy of {:.2f}%.\&quot;.format((truth == pred).mean()*100)\n&quot;, 
+<a name="l618"><span class="ln">618  </span></a>    &quot;    \n&quot;, 
+<a name="l619"><span class="ln">619  </span></a>    &quot;    else:\n&quot;, 
+<a name="l620"><span class="ln">620  </span></a>    &quot;        return \&quot;Number of predictions does not match number of outcomes!\&quot;\n&quot;, 
+<a name="l621"><span class="ln">621  </span></a>    &quot;    \n&quot;, 
+<a name="l622"><span class="ln">622  </span></a>    &quot;print accuracy_score(outcomes, predictions)&quot; 
+<a name="l623"><span class="ln">623  </span></a>   ] 
+<a name="l624"><span class="ln">624  </span></a>  }, 
+<a name="l625"><span class="ln">625  </span></a>  { 
+<a name="l626"><span class="ln">626  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l627"><span class="ln">627  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l628"><span class="ln">628  </span></a>   &quot;source&quot;: [ 
+<a name="l629"><span class="ln">629  </span></a>    &quot;**Answer:** *61.62%*&quot; 
+<a name="l630"><span class="ln">630  </span></a>   ] 
+<a name="l631"><span class="ln">631  </span></a>  }, 
+<a name="l632"><span class="ln">632  </span></a>  { 
+<a name="l633"><span class="ln">633  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l634"><span class="ln">634  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l635"><span class="ln">635  </span></a>   &quot;source&quot;: [ 
+<a name="l636"><span class="ln">636  </span></a>    &quot;***\n&quot;, 
+<a name="l637"><span class="ln">637  </span></a>    &quot;Let's take a look at whether the feature **Sex** has any indication of survival rates among passengers using the `survival_stats` function. This function is defined in the `titanic_visualizations.py` Python script included with this project. The first two parameters passed to the function are the RMS Titanic data and passenger survival outcomes, respectively. The third parameter indicates which feature we want to plot survival statistics across.  \n&quot;, 
+<a name="l638"><span class="ln">638  </span></a>    &quot;Run the code cell below to plot the survival outcomes of passengers based on their sex.&quot; 
+<a name="l639"><span class="ln">639  </span></a>   ] 
+<a name="l640"><span class="ln">640  </span></a>  }, 
+<a name="l641"><span class="ln">641  </span></a>  { 
+<a name="l642"><span class="ln">642  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l643"><span class="ln">643  </span></a>   &quot;execution_count&quot;: 13, 
+<a name="l644"><span class="ln">644  </span></a>   &quot;metadata&quot;: { 
+<a name="l645"><span class="ln">645  </span></a>    &quot;collapsed&quot;: false 
+<a name="l646"><span class="ln">646  </span></a>   }, 
+<a name="l647"><span class="ln">647  </span></a>   &quot;outputs&quot;: [ 
+<a name="l648"><span class="ln">648  </span></a>    { 
+<a name="l649"><span class="ln">649  </span></a>     &quot;data&quot;: { 
+<a name="l650"><span class="ln">650  </span></a>      &quot;image/png&quot;: &quot;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\nSaowg1ySpAozyCVJnfapT32KCy64oM3pvXr14q9//WsXlqhrLV68mP79+9MTrqAyyCWph9h56FAi\nomE/Ow8dWl85dt6ZrbfemgEDBjBo0CD23XdfrrzyyvVC64orruCss85qcx0RG1wltUnssssu/Pzn\nP2/IujtjxIgRPP300w3bz84wyCWph1i4fDkJDftZuHx5XeWICG644QaeeuopFi5cyBlnnMHUqVP5\n2Mc+Vve+9ISa6iuxdu3a7i5C3QxySdIGmoK4X79+HHXUUfzoRz9i+vTpzJ07F4CTTjqJc845p3n+\nr371q+ywww4MHz6c733ve+3WVA888EDOOecc9t13X/r378/hhx/Ok08+2Tx91qxZvOUtb2HQoEEc\ndNBBzJs3D4ATTjiBRYsWMW7cOPr378+0adM2WPfKlSsZN24cAwcOZLvttmP//fdvntayub92H+64\n4w5GjBjBxRdfzLBhwzj55JMZNWoUN954Y/P8a9euZfvtt+e+++5j4cKF9OrVi3Xr1nHttdcyZsyY\n9cpx6aWXMmHCBABeeOEFTjvtNEaOHMmwYcM45ZRTeP755zv4C9TPIJckdWjMmDEMHz6cu+66a4Np\nN910E5dccgm33norCxYs4JZbbulwfTNnzmT69OmsWLGC559/vjmU58+fz+TJk/nGN77BihUrOOKI\nIzjqqKN46aWX+P73v89OO+3E9ddfz9NPP81pp522wXq/9rWvMWLECFauXMnjjz/OV77yleZpHTWD\nL1u2jL///e8sWrSIq666ismTJzNjxoz19nPw4MHstdde661v3LhxzJ8/n7/85S/r7d/xxx8PwBe+\n8AUefvhh/vjHP/Lwww+zZMkSzjvvvA7fo3oZ5JKkuuywww7r1ZybXHfddZx00km8+c1vZquttqrr\nsacnnXQSu+66K1tssQUTJ07kvvvuA+Daa6/lqKOO4qCDDqJ3796cdtppPPvss/zyl79sXra9Zvu+\nffuydOlSHnnkEXr37s3YsWPrWg6gd+/efPnLX6Zv375sscUWTJo0iVmzZvHcc88BRThPmjRpg+W2\n2morjj76aGbOnAnAggULmDdvHuPHjwfgW9/6FpdeeikDBgxgm2224Ywzzmied1MwyCVJdVmyZAmD\nBg3aYPxjjz3GiBEjmodHjhzZYWgOrel4t/XWW/PMM880r2vkyJHN0yKCESNGsGTJkrrK+PnPf55d\nd92VQw89lDe84Q1MnTq1ruUABg8eTN++fZuHd911V0aNGsXs2bN59tlnmTVrFpMnT2512UmTJjWH\n84wZM5gwYQJbbLEFK1asYM2aNbzzne9k0KBBDBo0iCOOOIKVK1fWXa6OeItWSVKHfvvb3/LYY4+x\n3377bTBt2LBhLF68uHl44cKFG92be4cdduCBBx5Yb9zixYsZPnw40HHz+DbbbMO0adOYNm0ac+fO\n5cADD2TvvffmwAMPZOutt2bNmjXN8y5btmy9LyCtrfu4445jxowZrF27lj322IPXv/71rW73kEMO\nYcWKFdx///1cc801XHbZZQC87nWvY+utt+bBBx9k2LBh9b0JnWSNXJLUptWrV3P99dczadIkPvKR\njzBq1KgN5pk4cSL/+Z//yUMPPcSaNWte0fnfiRMncsMNN3Dbbbfx0ksvMW3aNLbcckv22WcfoKjJ\nt3d9+g033NB8rrpfv3706dOHXr2KqNtrr72YMWMG69at46abbuKOO+7osDzHHXccc+bM4Yorrtig\nNl7b6tCnTx+OOeYYTj/9dFatWsUhhxwCFF8OPv7xj3PqqaeyYsUKoGjZmDNnTifelfYZ5JKkDYwb\nN44BAwaw0047ceGFF3Laaafx3e9+t3l6be318MMP59RTT+Wggw5it912433ve1+7626vVr3bbrvx\nwx/+kM985jMMHjyYG264gdmzZ9OnT9GAfMYZZ3D++eczaNAgLrnkkg2WX7BgAQcffDD9+vVj7Nix\nfPrTn27uuf71r3+dWbNmMXDgQGbOnMk//dM/dfg+DB06lH322Yd77rmHY489tt39mDRpErfeeisT\nJ05s/vIAMHXqVN7whjfw7ne/m2233ZZDDz2U+fPnd7jtelX2eeTdXQa9bOSQITy6bFl3F0OqlNGj\nR2/w9LOdhw6t+1rvjeGxWg2tfTbgVfg8cpO854gG/uORNieGrDaGTeuSJFWYQS5JUoUZ5JIkVZhB\nLklShRnkkiRVmEEuSVKFGeSSJFWYQS5J6jaf+tSnuOCCCzb5er/85S/zkY98ZJOvtycyyCWphxg6\nfCgR0bCfocOHdlyI0t13383YsWPZdttted3rXsd+++3H7373u02+z1dccQVnnXXWJl8vdPyAlVeL\nyt7ZTZJebZYvWQ5TGrj+KfXdhXH16tWMGzeOK6+8kmOOOYYXXniBu+66iy222KLT28zMzSZQu4s1\ncknSeubPn09EMHHiRCKCLbbYgoMPPpi3vOUtGzRZL1y4kF69erFu3ToADjzwQM4++2z23Xdfttlm\nG7761a8yZsyY9dZ/6aWXMmHCBABOOukkzjnnHABGjRrFjTfe2Dzf2rVr2X777bnvvvsAuOeeexg7\ndiwDBw7k7W9/+3pPL3v00Uc54IADGDBgAIcddhhPPPFEY96cHsgglyStZ7fddqN379589KMf5aab\nbuLvf//7etNb1rBbDv/whz/k29/+NqtXr+aTn/wk8+fPb360KMDMmTM5/vjjN9jupEmTmDFjRvPw\nTTfdxODBg9lrr71YsmQJRx11FOeccw6rVq1i2rRpfPCDH2TlypUATJ48mTFjxvDEE09w9tlnM336\n9Ff8PlSFQS5JWk+/fv24++676dWrF//8z//M4MGDmTBhAo8//nhdy3/0ox/lTW96E7169aJ///4c\nffTRzJw5EygeMzpv3jzGjRu3wXKTJ09m1qxZPPfcc0AR+JMmTQLg6quv5sgjj+Swww4D4H3vex+j\nR4/mxhtvZPHixdx7772cd9559O3bl/3226/V9b9aGeSSpA3svvvufPe732XRokU8+OCDPPbYY5x6\n6ql1LTtixIj1hidNmtQc5DNmzGDChAlsueWWGyy36667MmrUKGbPns2zzz7LrFmzmmvuCxcu5Npr\nr2XQoEEMGjSIgQMH8otf/IKlS5fy2GOPMXDgQLbaaqvmdY0cOXJjd71y7OwmSWrXbrvtxoknnshV\nV13FO9/5TtasWdM8benSpRvM37Kp/ZBDDmHFihXcf//9XHPNNVx22WVtbuu4445jxowZrF27lj32\n2INddtkFKL4cnHDCCVx55ZUbLLNo0SJWrVrFs88+2xzmixYtolevzaOuunnspSSpbvPmzeOSSy5h\nyZIlACxevJiZM2eyzz778La3vY0777yTxYsX89RTT3HRRRd1uL4+ffpwzDHHcPrpp7Nq1SoOOeSQ\nNuc97rjjmDNnDldccQWTJ09uHv/hD3+Y2bNnM2fOHNatW8dzzz3HHXfcwWOPPcZOO+3E6NGjOffc\nc3nxxRe5++67mT179it/IyrCIJckradfv378+te/5l3vehf9+vXjPe95D3vuuSfTpk3j4IMP5thj\nj2XPPfdkzJgxG5yLbutSs0mTJnHrrbcyceLE9WrKLecfOnQo++yzD/fccw/HHnts8/jhw4fzk5/8\n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\n&quot;, 
+<a name="l651"><span class="ln">651  </span></a>      &quot;text/plain&quot;: [ 
+<a name="l652"><span class="ln">652  </span></a>       &quot;&lt;matplotlib.figure.Figure at 0x10aea8a10&gt;&quot; 
+<a name="l653"><span class="ln">653  </span></a>      ] 
+<a name="l654"><span class="ln">654  </span></a>     }, 
+<a name="l655"><span class="ln">655  </span></a>     &quot;metadata&quot;: {}, 
+<a name="l656"><span class="ln">656  </span></a>     &quot;output_type&quot;: &quot;display_data&quot; 
+<a name="l657"><span class="ln">657  </span></a>    } 
+<a name="l658"><span class="ln">658  </span></a>   ], 
+<a name="l659"><span class="ln">659  </span></a>   &quot;source&quot;: [ 
+<a name="l660"><span class="ln">660  </span></a>    &quot;survival_stats(data, outcomes, 'Sex')&quot; 
+<a name="l661"><span class="ln">661  </span></a>   ] 
+<a name="l662"><span class="ln">662  </span></a>  }, 
+<a name="l663"><span class="ln">663  </span></a>  { 
+<a name="l664"><span class="ln">664  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l665"><span class="ln">665  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l666"><span class="ln">666  </span></a>   &quot;source&quot;: [ 
+<a name="l667"><span class="ln">667  </span></a>    &quot;Examining the survival statistics, a large majority of males did not survive the ship sinking. However, a majority of females *did* survive the ship sinking. Let's build on our previous prediction: If a passenger was female, then we will predict that they survived. Otherwise, we will predict the passenger did not survive.  \n&quot;, 
+<a name="l668"><span class="ln">668  </span></a>    &quot;Fill in the missing code below so that the function will make this prediction.  \n&quot;, 
+<a name="l669"><span class="ln">669  </span></a>    &quot;**Hint:** You can access the values of each feature for a passenger like a dictionary. For example, `passenger['Sex']` is the sex of the passenger.&quot; 
+<a name="l670"><span class="ln">670  </span></a>   ] 
+<a name="l671"><span class="ln">671  </span></a>  }, 
+<a name="l672"><span class="ln">672  </span></a>  { 
+<a name="l673"><span class="ln">673  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l674"><span class="ln">674  </span></a>   &quot;execution_count&quot;: 14, 
+<a name="l675"><span class="ln">675  </span></a>   &quot;metadata&quot;: { 
+<a name="l676"><span class="ln">676  </span></a>    &quot;collapsed&quot;: false 
+<a name="l677"><span class="ln">677  </span></a>   }, 
+<a name="l678"><span class="ln">678  </span></a>   &quot;outputs&quot;: [], 
+<a name="l679"><span class="ln">679  </span></a>   &quot;source&quot;: [ 
+<a name="l680"><span class="ln">680  </span></a>    &quot;def predictions_1(data):\n&quot;, 
+<a name="l681"><span class="ln">681  </span></a>    &quot;    \&quot;\&quot;\&quot; Model with one feature: \n&quot;, 
+<a name="l682"><span class="ln">682  </span></a>    &quot;            - Predict a passenger survived if they are female. \&quot;\&quot;\&quot;\n&quot;, 
+<a name="l683"><span class="ln">683  </span></a>    &quot;    \n&quot;, 
+<a name="l684"><span class="ln">684  </span></a>    &quot;    predictions = []\n&quot;, 
+<a name="l685"><span class="ln">685  </span></a>    &quot;    for _, passenger in data.iterrows():\n&quot;, 
+<a name="l686"><span class="ln">686  </span></a>    &quot;        \n&quot;, 
+<a name="l687"><span class="ln">687  </span></a>    &quot;        predictions. append(passenger['Sex'] == 'female')# Remove the 'pass' statement below \n&quot;, 
+<a name="l688"><span class="ln">688  </span></a>    &quot;        # and write your prediction conditions here\n&quot;, 
+<a name="l689"><span class="ln">689  </span></a>    &quot;        pass\n&quot;, 
+<a name="l690"><span class="ln">690  </span></a>    &quot;    \n&quot;, 
+<a name="l691"><span class="ln">691  </span></a>    &quot;    # Return our predictions\n&quot;, 
+<a name="l692"><span class="ln">692  </span></a>    &quot;    return pd.Series(predictions)\n&quot;, 
+<a name="l693"><span class="ln">693  </span></a>    &quot;\n&quot;, 
+<a name="l694"><span class="ln">694  </span></a>    &quot;# Make the predictions\n&quot;, 
+<a name="l695"><span class="ln">695  </span></a>    &quot;predictions = predictions_1(data)&quot; 
+<a name="l696"><span class="ln">696  </span></a>   ] 
+<a name="l697"><span class="ln">697  </span></a>  }, 
+<a name="l698"><span class="ln">698  </span></a>  { 
+<a name="l699"><span class="ln">699  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l700"><span class="ln">700  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l701"><span class="ln">701  </span></a>   &quot;source&quot;: [ 
+<a name="l702"><span class="ln">702  </span></a>    &quot;### Question 2\n&quot;, 
+<a name="l703"><span class="ln">703  </span></a>    &quot;*How accurate would a prediction be that all female passengers survived and the remaining passengers did not survive?*  \n&quot;, 
+<a name="l704"><span class="ln">704  </span></a>    &quot;**Hint:** Run the code cell below to see the accuracy of this prediction.&quot; 
+<a name="l705"><span class="ln">705  </span></a>   ] 
+<a name="l706"><span class="ln">706  </span></a>  }, 
+<a name="l707"><span class="ln">707  </span></a>  { 
+<a name="l708"><span class="ln">708  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l709"><span class="ln">709  </span></a>   &quot;execution_count&quot;: 15, 
+<a name="l710"><span class="ln">710  </span></a>   &quot;metadata&quot;: { 
+<a name="l711"><span class="ln">711  </span></a>    &quot;collapsed&quot;: false 
+<a name="l712"><span class="ln">712  </span></a>   }, 
+<a name="l713"><span class="ln">713  </span></a>   &quot;outputs&quot;: [ 
+<a name="l714"><span class="ln">714  </span></a>    { 
+<a name="l715"><span class="ln">715  </span></a>     &quot;name&quot;: &quot;stdout&quot;, 
+<a name="l716"><span class="ln">716  </span></a>     &quot;output_type&quot;: &quot;stream&quot;, 
+<a name="l717"><span class="ln">717  </span></a>     &quot;text&quot;: [ 
+<a name="l718"><span class="ln">718  </span></a>      &quot;Predictions have an accuracy of 78.68%.\n&quot; 
+<a name="l719"><span class="ln">719  </span></a>     ] 
+<a name="l720"><span class="ln">720  </span></a>    } 
+<a name="l721"><span class="ln">721  </span></a>   ], 
+<a name="l722"><span class="ln">722  </span></a>   &quot;source&quot;: [ 
+<a name="l723"><span class="ln">723  </span></a>    &quot;print accuracy_score(outcomes, predictions)&quot; 
+<a name="l724"><span class="ln">724  </span></a>   ] 
+<a name="l725"><span class="ln">725  </span></a>  }, 
+<a name="l726"><span class="ln">726  </span></a>  { 
+<a name="l727"><span class="ln">727  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l728"><span class="ln">728  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l729"><span class="ln">729  </span></a>   &quot;source&quot;: [ 
+<a name="l730"><span class="ln">730  </span></a>    &quot;**Answer**: *78.68%*&quot; 
+<a name="l731"><span class="ln">731  </span></a>   ] 
+<a name="l732"><span class="ln">732  </span></a>  }, 
+<a name="l733"><span class="ln">733  </span></a>  { 
+<a name="l734"><span class="ln">734  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l735"><span class="ln">735  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l736"><span class="ln">736  </span></a>   &quot;source&quot;: [ 
+<a name="l737"><span class="ln">737  </span></a>    &quot;***\n&quot;, 
+<a name="l738"><span class="ln">738  </span></a>    &quot;Using just the **Sex** feature for each passenger, we are able to increase the accuracy of our predictions by a significant margin. Now, let's consider using an additional feature to see if we can further improve our predictions. For example, consider all of the male passengers aboard the RMS Titanic: Can we find a subset of those passengers that had a higher rate of survival? Let's start by looking at the **Age** of each male, by again using the `survival_stats` function. This time, we'll use a fourth parameter to filter out the data so that only passengers with the **Sex** 'male' will be included.  \n&quot;, 
+<a name="l739"><span class="ln">739  </span></a>    &quot;Run the code cell below to plot the survival outcomes of male passengers based on their age.&quot; 
+<a name="l740"><span class="ln">740  </span></a>   ] 
+<a name="l741"><span class="ln">741  </span></a>  }, 
+<a name="l742"><span class="ln">742  </span></a>  { 
+<a name="l743"><span class="ln">743  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l744"><span class="ln">744  </span></a>   &quot;execution_count&quot;: 16, 
+<a name="l745"><span class="ln">745  </span></a>   &quot;metadata&quot;: { 
+<a name="l746"><span class="ln">746  </span></a>    &quot;collapsed&quot;: false 
+<a name="l747"><span class="ln">747  </span></a>   }, 
+<a name="l748"><span class="ln">748  </span></a>   &quot;outputs&quot;: [ 
+<a name="l749"><span class="ln">749  </span></a>    { 
+<a name="l750"><span class="ln">750  </span></a>     &quot;data&quot;: { 
+<a name="l751"><span class="ln">751  </span></a>      &quot;image/png&quot;: &quot;iVBORw0KGgoAAAANSUhEUgAAAfkAAAGJCAYAAACJlEolAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz\nAAALEgAACxIB0t1+/AAAIABJREFUeJzt3XmcFdWd///Xm0VUAggEBQUa1EFF4xLBSNDY4IZRhEki\nCsYFZxKMZqKTaFzGKOjPHbf8ZlRMjEMSwWgyiaAGicbGJdHEuEVQcGORXURFwYXm8/2jqttL08uF\n27dvd/F+Ph796Fvbqc+52+eeU6eqFBGYmZlZ9rQqdQBmZmZWHE7yZmZmGeUkb2ZmllFO8mZmZhnl\nJG9mZpZRTvJmZmYZ5SRv1gQkjZE0oxHKOU3SE40R0xbu/zZJ/7UF2/WS9IEkFSOuxti/pA2Sdm3K\nuMyKzUl+KyRpvqS16ZfeUkl3Sdq+1HE1NUm7SPqtpJWSVkt6SdKpxdhXREyJiGGNVVxdCyT9m6RX\nJL2fvrYPSGqfLrtL0uX57qS2HxQR8b2IuDKPbd+SNDRnu0UR0TEa6cIckm6XdGvOdBtJH0r6n1rm\nHVRz/5Iek3RGjWLzjk3SZZIurTGvj6TK3Bgag6QN9SzL/SyvSf93L3B/h0laVEgZ1nw4yW+dAjg2\nIjoCXwYGAJeUNqTiktS6ltm/AhYAvYCuwCnA8kYsv0lJOgy4EjgxIjoBewG/KaRINiPxNbHHgUNz\npgcAC2vMG0gS/z/yLLPQXoZTgZeBEyW1LbCsfFV/liOiQ/p/WYFlFvS6N4fPgn3OSX7rJYCIWAr8\nEdgHQNLpkuakLYLXJX23egOpq6Tpaat3laRZOcsukPR2ut0rkoak8yXpwrSslZLukbRDuqws7SI9\nVdICSSskXZxT5raSJkt6V9JsSefntjAk9Uhb4iskvSHpP3KWXSbpPkm/kvQecFotz8FAYHJEfBwR\nGyLixYh4ON1+k9ZMbuu0lvIvTltUO+Ssf0Ba59a5rWJJt0q6vkbZf5B0bs5z+Xr6XL4saWQ+LyhJ\novtLRLwEEBHvRcSvIuIjSd8BTgZ+nJZ7f337krQncBswKG0hvpvOr+4NqOv9IOmXQG9gelrueTmv\ndat0nc6SfiFpcbrt/9VXZi0eB/aS1CWdPhS4B2ifM+8Q4K8RUZm7f0n/X7r+f6fx/TSn3CMlzUvf\nc/+d5/Ne5VRgPLAKGJ67QNJRkl5N6/U/kiqU05Mg6Yz0c7dK0h8l9c7ZvKGEW+uPE0kHS3oq3efz\nSn4EVi2r9XOupEfvIWBn5fQMqEYvUM3PR/rZ+LGkF4EP0+e5zs+nNaGI8N9W9ge8BQxNH/ciaX2M\nT6ePAfqkjw8FPgL2T6evAm4l+XHYGhiczu9H0oraKZ3uDfRNH58D/AXoAbQlSRxT0mVlwAZgErAN\nsC/wMbBHuvwa4DGgI7Az8CKwMF0m4Fngv9JY+gCvA0emyy8DPgGGp9PtankeZgJPAicCvWosO6xq\nX3U8bzXL3xZ4BPi3nPWvA25NH58GPJ7zvC7IWW8HYG3O8/fNnMcnAB/mTFeXU0t9Dklfr/HAV4Ft\naiy/C7i8xrzN2lduGXW9H3KeqyE502VAJdAqnX4QmJq+tq2BQxsqs5b6vgmMSB9PB8pJemdy511S\nx/4fA86oUd4GYBrQgeRzsQI4Ks/P1KHAB0A7kt6U+3OWdQXeB0ak9fpB+t45I10+AphH8jlqBVwM\nPLW5n+Ua83cG3gGOTqcPT6e75vE5r+29v9F7p+Y6aRzPpfttRwOfT/813Z9b8luvP6Sts8dJvvCu\nBoiIP0bE/PTxEySJsKoL9DOSZN03Iioj4ql0fiVJkt5HUpuIWBgRb6XLxgH/FRFLI+Iz4HLgW1Ut\nOpJWyviI+DSSFuiLwH7pshOAKyPig4hYAuS2uA4CvhgRV6axzAd+DpyUs85fI2J6WpdPankOTkjr\nfwnwpqTnJA3I8/mrWf7HJElrTM7yk4C7a26UPq8h6ZB01rdIWuDL0+W/y3l8H/BaWt96RcSTwDeA\nA4AHgHck3SDVPdhsS/eVquv9UKWuFmYP4GhgXPraVqbPST5l5poFfC2t30HA0yQ/2qrmDU7X2RxX\nR8SaiFhE8rnYP8/tTgWmp++z+4Bhkr6YLvs68HJE3B9Jj9FP2fiw0Lh0v/MiYgPJj9v9JfXKc99/\nSHse3q3qEQG+DTwYac9URDxKknS/nk7X9znfUrdExJL0ORhIw59PawJO8luvERHRJSL6RsR/VCVB\nScdI+mvabbia5Bd/1ZfV9cAbwMy0i+8CgIh4AziXpAW5XNIUfT74pwz4fdWXEDCH5It8p5xYcr/w\n1gJfSB/vDLydsyy3+7w3sEvOl9tq4CJgxzrW30REvB8RF0fEl9J4XgR+X982NdQs/3fAwZJ2SrtG\n60tSvwFGp4/HkPNjQMnhi+fTbtbVwN58/hrUKyIejogREdGFpIV4OvDvda1fyL6o4/2Qh57AuxHx\nQS3LrtuMMh8HvgZ8CXgj/aH1JEkr80skvSvP5BlTlbrei3WStC3JD8b7ACLiBZKxHlU/+HZm0/dK\n7vu6DLgl5zOyiuTH7y55xlz1We4SEd/IKXNUjc/HYJIfUA19zrdUzTo19Pm0JuAkv/XapJUlaRvg\ntyRftN0iojPJ8fqq4/cfRsR5EbEbcDzwQ6XH3iPinog4lOTDDXBt+n8hcEzOl1DniGgfyViAhiwl\nSQhVco9TLgLerFFup4jIPRaa9+ChiHgXmEhyLLIzSfdl9RkHSgYTdau5WY0y3iNpEZ1EksDvqWeX\nU0l6NHoDXyH5gUA6fQdwVlqnzsBstmBQWEQ8BvyZdLxFzXjz2Fe9z19974cGtl0EdJHUsZYyP6qn\nzJoeJ2lpHws8kW4/m6Sr/Vjg7xHxaV3h11e3zfSvJIcdJik5o6HqfVs1DmRpGlOu3Pf1IpJejdz3\n8hci4uk891/be2MR8MsaZXaIiOsa+pxT+3Oz0eeB9MdCDbnb5fP5tCbgJG+5tkn/3omIDZKOAY6q\nWijpWEm7pZNrgPXABkn9JA1Jvzw+BdaRHN+E5Hj7VVUDiSR1k3R8zj7rS173AhdJ2kHSLsDZOcv+\nBqxJB/tsq2Rw296b090u6Zp0m9aSOgBnAa9HxGqSY6Tbpi2eNiRd+tvkUexUkq7bbwJT6lopbe2t\nIunCnJHTqm1P8ty9kw5eGsvnSbqh+hwv6UR9PrDxIJJW7V/TVZYDueeBN7Sv5UBP1TFSvI73Q2Ud\n+4LPfywuI0kqt6avbRtJh9ZTZq2nkKU9SMtJxn3knur3TDrv8dr2X098W+o04E6S3oP90r9DgP0k\n7U0y/mCf9PVpLen7bNyTdTvJwM3+AJI6SfpWgTH9GhiuZMBfq/QzcpiknWngc07y3HSt8SPsBeDr\nSgZMdid5futT8OfTGoeT/Nap1lZMRHxIMijovrTb8CTg/pxV/gV4RNIa4CngfyJiFslAm2uAlcAS\nkhbvRek2t6RlzJT0PskgvNxjvjVjyZ2+HFhMMqhnJkl36CdprBuA40hacm+RDJL6GUmLKl/bk3TP\nryYZFNSLpPVImnTPIvnyfpsk4bxdezEbmUbyPC2NiH82sO4UkgFR1V31EfEKcAPJ8eVlJN3nT+ZZ\nn9XAd4B56XP9S+DaiKjqUbgT2Lvq2G26rxvr2defSVr2yyStqGV/tb0fqhLr1cBP0n39sKp6Odue\nQpLAX+XzRF1XmfUdV3+cZGBb7mGRJ0jegzWTfO7+bwFOSLurb65leW3Tm0iT5lDgpohYkfP3HDAD\nOC0iVpF0519PMvhtT5Lj41Xv5T+QfH7uUXKmxktAvtdUqOuz/DbJ4ZqLST6XC4DzSAYe1vs5j4i5\nJD9W30xfv+4kAxpfAuan9arZS1WzV6sxPp/WCBRRvNNgJd1J8kIvj4h9ayz7Ecmb/otpVymSLgLO\nIPnwnxMRM4sWnLU4ks4kOQe8ru5bs2ZPkkh+MI5p4AeMWcGK3ZK/i2QU7UYk9QSOJPl1WTVvL2AU\nyQU8jiHpyivJJTCteVByfu5XldgD+BHwfw1tZ9bcpN3mnSS1IzmtDJIeFLOiKmqST0/pWV3LopuA\n82vMGwHcExHr09MtNudUHsumbUiO6X9Acg7670nOszdraQaRnDWwgmRQ4Iio/bROs0bVpql3mA66\nWhQR/6zRUN+FzwcIQXIsNt9TSCyDImIhyWAmsxYtIiYAE0odh219mjTJS9qOZCDIkU25XzMzs61R\nU7fkdyO5vOGL6fH2nsBz6ak+i9n4POie6bxNSGquN80wMzMrmojYrLFqTXEKnfj8/NiXI6J7ROwa\nEX1JRpgeEBErSE49OlHSNpL6AruTnGtZq2gG1wQu1t9ll11W8hhcP9dva6xfluvm+rX8vy1R1CQv\naQrJedH9JC1ML7aRK/j8B8AckoufzCG5C9JZsaW1MjMzs+J210fEmAaW71pj+mrSG6WYmZlZYXzF\nu2aovLy81CEUlevXsmW5flmuG7h+W6OiXvGuWCS5J9/MzLYqkojNHHjX5OfJm5kZDB8+nKVL87kZ\no21tevTowfTp0xulLCd5M7MSWLp0Kc8++2ypw7BmaMCAxrtZn4/Jm5mZZZSTvJmZWUY5yZuZmWWU\nk7yZmW22733ve1x55ZV1Lm/VqhVvvvlmE0bUtBYtWkTHjh23+Ep0TcUD78zMmomLzzyTVfPnF638\nrn36cNXttze4Xp8+fVixYgVt27aldevW9O/fn1NOOYXvfve7VN099Lbb6r/rc427jDaavn37cued\ndzJ06NCilJ+vXr168cEHH5Q0hnw4yZuZNROr5s9nUllZ0cofl+cPCEk8+OCDDBkyhDVr1jBr1ix+\n8IMf8Mwzz/CLX/wirzKaewu3IZWVlbRu3brUYRTM3fVmZraJqiTdoUMHjjvuOH7zm98wefJk5syZ\nA8DYsWO59NJLq9e//vrr2XnnnenZsyd33XVXvS35IUOGcOmll3LIIYfQsWNHhg0bxrvvvlu9fNq0\naeyzzz506dKFoUOHMnfuXABOPfVUFi5cyPDhw+nYsSMTJ07cpOxVq1YxfPhwOnfuTNeuXTnssMOq\nl9U8hJBbh1mzZtGrVy+uu+46evTowRlnnEH//v156KGHqtevrKxkxx135IUXXmDBggW0atWKDRs2\ncO+99zJw4MCN4rjpppsYOXIkAJ9++innnXceZWVl9OjRg7POOotPPvmkgVegcTjJm5lZgwYOHEjP\nnj154oknNlk2Y8YMbrzxRh599FFee+01HnnkkQbLmzp1KpMnT2blypV88skn1Ql73rx5jBkzhp/+\n9KesXLmSY445huOOO47169fzy1/+kt69e/PAAw/wwQcfcN55521S7g033ECvXr1YtWoVK1as4Kqr\nrqpe1tAhhGXLlvHee++xcOFC7rjjDsaMGcOUKVM2qme3bt3Yf//9Nypv+PDhzJs3jzfeeGOj+p18\n8skAXHDBBbz++uu89NJLvP766yxevJjLL7+8weeoMTjJm5lZXnbeeeeNWtxV7rvvPsaOHctee+3F\ndtttx/jx4xssa+zYsey22260a9eOUaNG8cILLwBw7733ctxxxzF06FBat27Neeedx7p16/jLX/5S\nvW19hwLatm3L0qVLeeutt2jdujWDBw/OazuA1q1bM2HCBNq2bUu7du0YPXo006ZN4+OPPwaSxD16\n9OhNtttuu+0YMWIEU6dOBeC1115j7ty5HH/88QD87Gc/46abbqJTp060b9+eCy+8sHrdYnOSNzOz\nvCxevJguXbpsMn/JkiX06tWrerqsrKzBhNq9e/fqx9tvvz0ffvhhdVllOeMSJNGrVy8WL16cV4w/\n/vGP2W233TjqqKPYfffdufbaa/PaDqBbt260bdu2enq33Xajf//+TJ8+nXXr1jFt2jTGjKn95qqj\nR4+uTtxTpkxh5MiRtGvXjpUrV7J27VoOPPBAunTpQpcuXTjmmGNYtWpV3nEVwgPvzMysQX//+99Z\nsmQJhx566CbLevTowaJFi6qnFyxYsMWj63feeWdefvnljeYtWrSInj17Ag13ubdv356JEycyceJE\n5syZw5AhQzjooIMYMmQI22+/PWvXrq1ed9myZRv9OKmt7JNOOokpU6ZQWVnJ3nvvza677rrJOgBH\nHnkkK1eu5MUXX+See+7h5ptvBuCLX/wi22+/PbNnz6ZHjx75PQmNyC15MzOr05o1a3jggQcYPXo0\np5xyCv37999knVGjRvG///u/vPLKK6xdu7ag482jRo3iwQcf5LHHHmP9+vVMnDiRbbfdlkGDBgFJ\nD0B9598/+OCD1cfGO3ToQJs2bWjVKkl1+++/P1OmTGHDhg3MmDGDWbNmNRjPSSedxMyZM7nttts2\nacXn9la0adOGE044gfPPP5/Vq1dz5JFHAskPh+985zuce+65rFy5Ekh6RGbOnLkZz8qWc5I3M7NN\nDB8+nE6dOtG7d2+uvvpqzjvvvI1On8tt9Q4bNoxzzz2XoUOH0q9fPw4//PB6y66vNd6vXz9+/etf\n8/3vf59u3brx4IMPMn36dNq0STqeL7zwQq644gq6dOnCjTfeuMn2r732GkcccQQdOnRg8ODBnH32\n2dUj7G+55RamTZtG586dmTp1Kv/6r//a4PPQvXt3Bg0axNNPP82JJ55Ybz1Gjx7No48+yqhRo6p/\nWABce+217L777hx88MHssMMOHHXUUcybN6/BfTcG30/ezKwEBgwYsMld6JrLxXCstGp7b4DvJ29m\n1qI5AVtjc3e9mZlZRjnJm5mZZZSTvJmZWUY5yZuZmWWUk7yZmVlGOcmbmZlllJO8mZlZRjnJm5lZ\nyXzve9/jyiuvbPRyJ0yYwCmnnNLo5bY0vhiOmVkzceZ/nsn8JfOLVn6fnftw+035XXDnySef5IIL\nLmD27Nm0adOGvfbai5tvvpkDDzywUWO67bbbGrW8XFt6k5wscZI3M2sm5i+ZT9m3yxpecUvL//X8\nvNZbs2YNw4cPZ9KkSZxwwgl8+umnPPHEE7Rr126z9xkRTrYl5O56MzPbyLx585DEqFGjkES7du04\n4ogj2GeffTbpBl+wYAGtWrViw4YNAAwZMoRLLrmEQw45hPbt23P99dczcODAjcq/6aabGDlyJABj\nx47l0ksvBaB///489NBD1etVVlay44478sILLwDw9NNPM3jwYDp37swBBxyw0V3k5s+fT3l5OZ06\ndeLoo4/mnXfeKc6T08I4yZuZ2Ub69etH69atOf3005kxYwbvvffeRstrtsxrTv/617/m5z//OWvW\nrOHMM89k3rx51bd/BZg6dSonn3zyJvsdPXo0U6ZMqZ6eMWMG3bp1Y//992fx4sUcd9xxXHrppaxe\nvZqJEyfyzW9+k1WrVgEwZswYBg4cyDvvvMMll1zC5MmTC34essBJ3szMNtKhQweefPJJWrVqxXe/\n+126devGyJEjWbFiRV7bn3766ey55560atWKjh07MmLECKZOnQokt4KdO3cuw4cP32S7MWPGMG3a\nND7++GMg+TEwevRoAO6++26OPfZYjj76aAAOP/xwBgwYwEMPPcSiRYt49tlnufzyy2nbti2HHnpo\nreVvjZzkzcxsE3vssQe/+MUvWLhwIbNnz2bJkiWce+65eW3bq1evjaZHjx5dneSnTJnCyJEj2Xbb\nbTfZbrfddqN///5Mnz6ddevWMW3atOoW/4IFC7j33nvp0qULXbp0oXPnzjz11FMsXbqUJUuW0Llz\nZ7bbbrvqssrKije2oSXxwDszM6tXv379OO2007jjjjs48MADWbt2bfWypUuXbrJ+ze77I488kpUr\nV/Liiy9yzz33cPPNN9e5r5NOOokpU6ZQWVnJ3nvvTd++fYHkh8Opp57KpEmTNtlm4cKFrF69mnXr\n1lUn+oULF9KqlduxfgbMzGwjc+fO5cYbb2Tx4sUALFq0iKlTpzJo0CD2228/Hn/8cRYtWsT777/P\nNddc02B5bdq04YQTTuD8889n9erVHHnkkXWue9JJJzFz5kxuu+02xowZUz3/29/+NtOnT2fmzJls\n2LCBjz/+mFmzZrFkyRJ69+7NgAEDuOyyy/jss8948sknmT59euFPRAY4yZuZ2UY6dOjAM888w1e+\n8hU6dOjAV7/6Vfbdd18mTpzIEUccwYknnsi+++7LwIEDNzn2XdfpcqNHj+bRRx9l1KhRG7Wwa67f\nvXt3Bg0axNNPP82JJ55YPb9nz57cf//9XHXVVXTr1o2ysjImTpxYPar/7rvv5umnn6Zr165cccUV\nnHbaaY31dLRoiohSx7DZJEVLjNvMrMqAAQN49tlnN5rXnC6GY6VT23sDkh9EEbFZFx3wMXlrchef\neSar5s8vdRhF07VPH6663V+ktvmcgK2xOclbk1s1fz6TMjzydVyGf8CYWctS1GPyku6UtFzSSznz\nrpP0iqQXJP1OUsecZRdJei1dflQxYzMzM8u6Yg+8uws4usa8mcDeEbE/8BpwEYCk/sAoYC/gGOBW\n+YLHZmZmW6yoST4ingRW15j3SERsSCefBnqmj48H7omI9RExn+QHwEHFjM/MzCzLSn0K3RlA1d0I\ndgEW5SxbnM4zMzOzLVCyJC/pv4DPImJqqWIwMzPLspKMrpd0OvB1YGjO7MVA7gWPe6bzajV+/Pjq\nx+Xl5ZSXlzdmiGZmRdWjRw8GDBhQ6jCsGerRowcAFRUVVFRUFFRW0S+GI6kPMD0ivpRODwNuAL4W\nEaty1usP3A18haSb/k/Av9R21RtfDKdlGzdsWLZPoVuwgEkzZpQ6DDPLmGZ3MRxJU4ByoKukhcBl\nwMXANsCf0sHzT0fEWRExR9K9wBzgM+AsZ3IzM7MtV9QkHxFjapl9Vz3rXw1cXbyIzMzMth6lHl1v\nZmZmReIkb2ZmllFO8mZmZhnlJG9mZpZRTvJmZmYZ5SRvZmaWUU7yZmZmGeUkb2ZmllFO8mZmZhnl\nJG9mZpZRTvJmZmYZ5SRvZmaWUU7yZmZmGeUkb2ZmllFO8mZmZhnlJG9mZpZRTvJmZmYZ5SRvZmaW\nUU7yZmZmGeUkb2ZmllFO8mZmZhnlJG9mZpZRTvJmZmYZ5SRvZmaWUU7yZmZmGeUkb2ZmllFO8mZm\nZhnlJG9mZpZRTvJmZmYZ5SRvZmaWUU7yZmZmGeUkb2ZmllFO8mZmZhnlJG9mZpZRTvJmZmYZ5SRv\nZmaWUU7yZmZmGeUkb2ZmllFO8mZmZhlV1CQv6U5JyyW9lDOvs6SZkuZKelhSp5xlF0l6TdIrko4q\nZmxmZmZZV+yW/F3A0TXmXQg8EhF7AH8GLgKQ1B8YBewFHAPcKklFjs/MzCyziprkI+JJYHWN2SOA\nyenjycDI9PHxwD0RsT4i5gOvAQcVMz4zM7MsK8Ux+R0jYjlARCwDdkzn7wIsyllvcTrPzMzMtkBz\nGHgXpQ7AzMwsi9qUYJ/LJe0UEcsldQdWpPMXA71y1uuZzqvV+PHjqx+Xl5dTXl7e+JGamZmVSEVF\nBRUVFQWVoYjiNqQl9QGmR8SX0ulrgXcj4lpJFwCdI+LCdODd3cBXSLrp/wT8S9QSoKTaZlsLMW7Y\nMCaVlZU6jKIZt2ABk2bMKHUYZpYxkoiIzRqQXtSWvKQpQDnQVdJC4DLgGuA+SWcAC0hG1BMRcyTd\nC8wBPgPOciY3MzPbckVN8hExpo5FR9Sx/tXA1cWLyMzMbOvRHAbemZmZWRE4yZuZmWWUk7yZmVlG\nOcmbmZlllJO8mZlZRjnJm5mZZZSTvJmZWUY5yZuZmWWUk7yZmVlGOcmbmZlllJO8mZlZRjnJm5mZ\n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\nxupM8hFxQ9VjSR2Ac4CxwD3ADXVtZ2ZmZs1DvcfkJXUBfgicDEwGvhwRq5siMDMzMytMfcfkrwe+\nAdwBfCkiPmyyqMzMzKxg9V0M50fAzsAlwBJJH6R/ayR90DThmZmZ2Zaq75j8Zl0Nz8zMzJoXJ3Iz\nM7OMcpI3MzPLqHwua2tmVu3l2bMZN2xYqcMoiq59+nDV7beXOgyzRuMkb2abRevWZfbeCuMyfGMo\n2zq5u97MzCyjnOTNzMwyyknezMwso5zkzczMMspJ3szMLKNKmuQltZL0nKRp6XRnSTMlzZX0sKRO\npYzPzMysJSt1S/4cYE7O9IXAIxGxB/Bn4KKSRGVmZpYBJUvyknoCXwd+njN7BMktbUn/j2zquMzM\nzLKilC35m4DzgciZt1NELAeIiGXAjqUIzMzMLAtKkuQlHQssj4gXANWzatSzzMzMzOpRqsvaDgaO\nl/R1YDugg6RfAcsk7RQRyyV1B1bUVcD48eOrH5eXl1NeXl7ciM3MzJpQRUUFFRUVBZVRkiQfERcD\nFwNIOgz4UUScIuk64HTgWuA04P66yshN8mZmZllTswE7YcKEzS6j1KPra7oGOFLSXODwdNrMzMy2\nQMnvQhcRs4BZ6eN3gSNKG5GZmVk2NLeWvJmZmTUSJ3kzM7OMcpI3MzPLKCd5MzOzjHKSNzMzyygn\neTMzs4xykjczM8soJ3kzM7OMcpI3MzPLKCd5MzOzjHKSNzMzyygneTMzs4xykjczM8soJ3kzM7OM\ncpI3MzPLKCd5MzOzjHKSNzMzyygneTMzs4xykjczM8soJ3kzM7OMcpI3MzPLKCd5MzOzjHKSNzMz\nyygneTMzs4xykjczM8soJ3kzM7OMcpI3MzPLKCd5MzOzjHKSNzMzyygneTMzs4xqU+oAzMyai5dn\nz2bcsGGlDqNouvbpw1W3317qMKwJOcmbmaW0bh2TyspKHUbRjJs/v9QhWBNzkrcm93rlhwx76qFS\nh1E0r1d+WOoQzMwAJ3krgU/abKDs618odRhF88xdy0sdgpkZ4IF3ZmZmmeUkb2ZmllFO8mZmZhnl\nY/JmjWxt5XoPLDSzZsFJ3qyRbWiNBxaaWbNQku56ST0l/VnSbEn/lPSDdH5nSTMlzZX0sKROpYjP\nzMwsC0p1TH498MOI2BsYBJwtaU/gQuCRiNgD+DNwUYniMzMza/FKkuQjYllEvJA+/hB4BegJjAAm\n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\ngg==\n&quot;, 
+<a name="l752"><span class="ln">752  </span></a>      &quot;text/plain&quot;: [ 
+<a name="l753"><span class="ln">753  </span></a>       &quot;&lt;matplotlib.figure.Figure at 0x10b0b1d10&gt;&quot; 
+<a name="l754"><span class="ln">754  </span></a>      ] 
+<a name="l755"><span class="ln">755  </span></a>     }, 
+<a name="l756"><span class="ln">756  </span></a>     &quot;metadata&quot;: {}, 
+<a name="l757"><span class="ln">757  </span></a>     &quot;output_type&quot;: &quot;display_data&quot; 
+<a name="l758"><span class="ln">758  </span></a>    } 
+<a name="l759"><span class="ln">759  </span></a>   ], 
+<a name="l760"><span class="ln">760  </span></a>   &quot;source&quot;: [ 
+<a name="l761"><span class="ln">761  </span></a>    &quot;survival_stats(data, outcomes, 'Age', [\&quot;Sex == 'male'\&quot;])&quot; 
+<a name="l762"><span class="ln">762  </span></a>   ] 
+<a name="l763"><span class="ln">763  </span></a>  }, 
+<a name="l764"><span class="ln">764  </span></a>  { 
+<a name="l765"><span class="ln">765  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l766"><span class="ln">766  </span></a>   &quot;metadata&quot;: { 
+<a name="l767"><span class="ln">767  </span></a>    &quot;collapsed&quot;: true 
+<a name="l768"><span class="ln">768  </span></a>   }, 
+<a name="l769"><span class="ln">769  </span></a>   &quot;source&quot;: [ 
+<a name="l770"><span class="ln">770  </span></a>    &quot;Examining the survival statistics, the majority of males younger then 10 survived the ship sinking, whereas most males age 10 or older *did not survive* the ship sinking. Let's continue to build on our previous prediction: If a passenger was female, then we will predict they survive. If a passenger was male and younger than 10, then we will also predict they survive. Otherwise, we will predict they do not survive.  \n&quot;, 
+<a name="l771"><span class="ln">771  </span></a>    &quot;Fill in the missing code below so that the function will make this prediction.  \n&quot;, 
+<a name="l772"><span class="ln">772  </span></a>    &quot;**Hint:** You can start your implementation of this function using the prediction code you wrote earlier from `predictions_1`.&quot; 
+<a name="l773"><span class="ln">773  </span></a>   ] 
+<a name="l774"><span class="ln">774  </span></a>  }, 
+<a name="l775"><span class="ln">775  </span></a>  { 
+<a name="l776"><span class="ln">776  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l777"><span class="ln">777  </span></a>   &quot;execution_count&quot;: 18, 
+<a name="l778"><span class="ln">778  </span></a>   &quot;metadata&quot;: { 
+<a name="l779"><span class="ln">779  </span></a>    &quot;collapsed&quot;: false 
+<a name="l780"><span class="ln">780  </span></a>   }, 
+<a name="l781"><span class="ln">781  </span></a>   &quot;outputs&quot;: [], 
+<a name="l782"><span class="ln">782  </span></a>   &quot;source&quot;: [ 
+<a name="l783"><span class="ln">783  </span></a>    &quot;def predictions_2(data):\n&quot;, 
+<a name="l784"><span class="ln">784  </span></a>    &quot;    \&quot;\&quot;\&quot; Model with two features: \n&quot;, 
+<a name="l785"><span class="ln">785  </span></a>    &quot;            - Predict a passenger survived if they are female.\n&quot;, 
+<a name="l786"><span class="ln">786  </span></a>    &quot;            - Predict a passenger survived if they are male and younger than 10. \&quot;\&quot;\&quot;\n&quot;, 
+<a name="l787"><span class="ln">787  </span></a>    &quot;    \n&quot;, 
+<a name="l788"><span class="ln">788  </span></a>    &quot;    predictions = []\n&quot;, 
+<a name="l789"><span class="ln">789  </span></a>    &quot;    for _, passenger in data.iterrows():\n&quot;, 
+<a name="l790"><span class="ln">790  </span></a>    &quot;        \n&quot;, 
+<a name="l791"><span class="ln">791  </span></a>    &quot;        # Remove the 'pass' statement below \n&quot;, 
+<a name="l792"><span class="ln">792  </span></a>    &quot;        predictions. append(passenger['Sex'] == 'female' or \\\n&quot;, 
+<a name="l793"><span class="ln">793  </span></a>    &quot;                            (passenger['Sex'] == 'male' and \\\n&quot;, 
+<a name="l794"><span class="ln">794  </span></a>    &quot;                             passenger['Age'] &lt;= 10))# and write your prediction conditions here\n&quot;, 
+<a name="l795"><span class="ln">795  </span></a>    &quot;        pass\n&quot;, 
+<a name="l796"><span class="ln">796  </span></a>    &quot;    \n&quot;, 
+<a name="l797"><span class="ln">797  </span></a>    &quot;    # Return our predictions\n&quot;, 
+<a name="l798"><span class="ln">798  </span></a>    &quot;    return pd.Series(predictions)\n&quot;, 
+<a name="l799"><span class="ln">799  </span></a>    &quot;\n&quot;, 
+<a name="l800"><span class="ln">800  </span></a>    &quot;# Make the predictions\n&quot;, 
+<a name="l801"><span class="ln">801  </span></a>    &quot;predictions = predictions_2(data)&quot; 
+<a name="l802"><span class="ln">802  </span></a>   ] 
+<a name="l803"><span class="ln">803  </span></a>  }, 
+<a name="l804"><span class="ln">804  </span></a>  { 
+<a name="l805"><span class="ln">805  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l806"><span class="ln">806  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l807"><span class="ln">807  </span></a>   &quot;source&quot;: [ 
+<a name="l808"><span class="ln">808  </span></a>    &quot;### Question 3\n&quot;, 
+<a name="l809"><span class="ln">809  </span></a>    &quot;*How accurate would a prediction be that all female passengers and all male passengers younger than 10 survived?*  \n&quot;, 
+<a name="l810"><span class="ln">810  </span></a>    &quot;**Hint:** Run the code cell below to see the accuracy of this prediction.&quot; 
+<a name="l811"><span class="ln">811  </span></a>   ] 
+<a name="l812"><span class="ln">812  </span></a>  }, 
+<a name="l813"><span class="ln">813  </span></a>  { 
+<a name="l814"><span class="ln">814  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l815"><span class="ln">815  </span></a>   &quot;execution_count&quot;: 19, 
+<a name="l816"><span class="ln">816  </span></a>   &quot;metadata&quot;: { 
+<a name="l817"><span class="ln">817  </span></a>    &quot;collapsed&quot;: false 
+<a name="l818"><span class="ln">818  </span></a>   }, 
+<a name="l819"><span class="ln">819  </span></a>   &quot;outputs&quot;: [ 
+<a name="l820"><span class="ln">820  </span></a>    { 
+<a name="l821"><span class="ln">821  </span></a>     &quot;name&quot;: &quot;stdout&quot;, 
+<a name="l822"><span class="ln">822  </span></a>     &quot;output_type&quot;: &quot;stream&quot;, 
+<a name="l823"><span class="ln">823  </span></a>     &quot;text&quot;: [ 
+<a name="l824"><span class="ln">824  </span></a>      &quot;Predictions have an accuracy of 79.24%.\n&quot; 
+<a name="l825"><span class="ln">825  </span></a>     ] 
+<a name="l826"><span class="ln">826  </span></a>    } 
+<a name="l827"><span class="ln">827  </span></a>   ], 
+<a name="l828"><span class="ln">828  </span></a>   &quot;source&quot;: [ 
+<a name="l829"><span class="ln">829  </span></a>    &quot;print accuracy_score(outcomes, predictions)&quot; 
+<a name="l830"><span class="ln">830  </span></a>   ] 
+<a name="l831"><span class="ln">831  </span></a>  }, 
+<a name="l832"><span class="ln">832  </span></a>  { 
+<a name="l833"><span class="ln">833  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l834"><span class="ln">834  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l835"><span class="ln">835  </span></a>   &quot;source&quot;: [ 
+<a name="l836"><span class="ln">836  </span></a>    &quot;**Answer**: *79.24%*&quot; 
+<a name="l837"><span class="ln">837  </span></a>   ] 
+<a name="l838"><span class="ln">838  </span></a>  }, 
+<a name="l839"><span class="ln">839  </span></a>  { 
+<a name="l840"><span class="ln">840  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l841"><span class="ln">841  </span></a>   &quot;metadata&quot;: { 
+<a name="l842"><span class="ln">842  </span></a>    &quot;collapsed&quot;: true 
+<a name="l843"><span class="ln">843  </span></a>   }, 
+<a name="l844"><span class="ln">844  </span></a>   &quot;source&quot;: [ 
+<a name="l845"><span class="ln">845  </span></a>    &quot;***\n&quot;, 
+<a name="l846"><span class="ln">846  </span></a>    &quot;Adding the feature **Age** as a condition in conjunction with **Sex** improves the accuracy by a small margin more than with simply using the feature **Sex** alone. Now it's your turn: Find a series of features and conditions to split the data on to obtain an outcome prediction accuracy of at least 80%. This may require multiple features and multiple levels of conditional statements to succeed. You can use the same feature multiple times with different conditions.   \n&quot;, 
+<a name="l847"><span class="ln">847  </span></a>    &quot;**Pclass**, **Sex**, **Age**, **SibSp**, and **Parch** are some suggested features to try.\n&quot;, 
+<a name="l848"><span class="ln">848  </span></a>    &quot;\n&quot;, 
+<a name="l849"><span class="ln">849  </span></a>    &quot;Use the `survival_stats` function below to to examine various survival statistics.  \n&quot;, 
+<a name="l850"><span class="ln">850  </span></a>    &quot;**Hint:** To use mulitple filter conditions, put each condition in the list passed as the last argument. Example: `[\&quot;Sex == 'male'\&quot;, \&quot;Age &lt; 18\&quot;]`&quot; 
+<a name="l851"><span class="ln">851  </span></a>   ] 
+<a name="l852"><span class="ln">852  </span></a>  }, 
+<a name="l853"><span class="ln">853  </span></a>  { 
+<a name="l854"><span class="ln">854  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l855"><span class="ln">855  </span></a>   &quot;execution_count&quot;: 34, 
+<a name="l856"><span class="ln">856  </span></a>   &quot;metadata&quot;: { 
+<a name="l857"><span class="ln">857  </span></a>    &quot;collapsed&quot;: false 
+<a name="l858"><span class="ln">858  </span></a>   }, 
+<a name="l859"><span class="ln">859  </span></a>   &quot;outputs&quot;: [ 
+<a name="l860"><span class="ln">860  </span></a>    { 
+<a name="l861"><span class="ln">861  </span></a>     &quot;data&quot;: { 
+<a name="l862"><span class="ln">862  </span></a>      &quot;image/png&quot;: &quot;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\n3ZfFixdz++238/nPf557772XH/7wh3Wto6fXcDuzbNky+vbt2+wwuszmeknSKlqT9IABAzjkkEP4\n6U9/ysSJE3n44YcBOOGEEzj77LNXzH/BBRewzTbbMHToUK688soOa/L77rsvZ599NnvvvTebbbYZ\no0aN4tlnn10xfcqUKeyyyy4MGjSI/fbbj0ceeQSAY489ltmzZzN69Gg222wzJkyYsMq6Fy5cyOjR\noxk4cCBbbLEFH/rQh1ZMa3sKobYMt99+O8OGDeNb3/oWQ4YM4cQTT2T48OHceOONK+ZftmwZW265\nJffffz+zZs2iT58+LF++nGuuuYY99thjpTguuugiDj/8cABeffVVTjnlFFpaWhgyZAif/exneeWV\nV1gXTPKSpE7tscceDB06lDvvvHOVaTfddBMXXnght956K48++ii33HJLp+ubPHkyEydOZMGCBbzy\nyisrEvaMGTMYN24c3/nOd1iwYAEHHXQQhxxyCK+//jo/+tGP2Hbbbbn++ut54YUXOOWUU1ZZ77e/\n/W2GDRvGwoULefrppznvvPNWTOvsFMJTTz3Fc889x+zZs7niiisYN24ckyZNWqmcgwcPZvfdd19p\nfaNHj2bGjBn89a9/Xal8Rx99NACnnXYajz32GA8++CCPPfYYc+fO5atf/Wqnn1F3MMlLkuqyzTbb\nrFTjbnXttddywgkn8M53vpONN96Y8ePHd7quE044gR122IENN9yQMWPGcP/99wNwzTXXcMghh7Df\nfvvRt29fTjnlFJYuXcpvfvObFct2dCqgf//+zJs3jyeeeIK+ffuy11571bUcQN++fTn33HPp378/\nG264IWPHjmXKlCm8/PLLQJG4x44du8pyG2+8MYcddhiTJ08G4NFHH+WRRx7h0EMPBeB73/seF110\nEZtvvjmbbropp59++op5G80kL0mqy9y5cxk0aNAq45988kmGDRu2YrilpaXThLr11luveL/JJpvw\n4osvrlhXS02/hIhg2LBhzJ07t64Yv/zlL7PDDjvwkY98hLe//e2cf/75dS0HMHjwYPr3779ieIcd\ndmD48OFMnTqVpUuXMmXKFMaNa+/hqjB27NgViXvSpEkcfvjhbLjhhixYsIAlS5bw3ve+l0GDBjFo\n0CAOOuggFi5cWHdcXWHHO0lSp373u9/x5JNPss8++6wybciQIcyZM2fF8KxZs9a6d/0222zDQw89\ntNK4OXPmMHToUKDzJvdNN92UCRMmMGHCBB5++GH23Xdf3ve+97HvvvuyySabsGTJkhXzPvXUUysd\nnLS37qOOOopJkyaxbNkydt55Z972tre1u90DDjiABQsW8MADD3D11Vdz8cUXA/CWt7yFTTbZhOnT\npzNkyJD6PoRuZE1ekrRaixcv5vrrr2fs2LEcc8wxDB8+fJV5xowZw3/913/x5z//mSVLlnTpfPOY\nMWO44YYbuO2223j99deZMGECG220EXvuuSdQtAB0dP39DTfcsOLc+IABA+jXrx99+hSpbvfdd2fS\npEksX76cm266idtvv73TeI466ihuvvlmLr300lVq8bWtFf369eOII47g1FNPZdGiRRxwwAFAceDw\nqU99ii9+8YssWLAAKFpEbr755jX4VNaeSV6StIrRo0ez+eabs+222/KNb3yDU045ZaXL52prvaNG\njeKLX/wi++23HzvuuCMf/vCHO1x3R7XxHXfckZ/85Cf88z//M4MHD+aGG25g6tSp9OtXNDyffvrp\nfO1rX2PQoEFceOGFqyz/6KOPsv/++zNgwAD22msvPve5z63oYX/JJZcwZcoUBg4cyOTJk/mHf/iH\nTj+Hrbfemj333JN77rmHI488ssNyjB07lltvvZUxY8asOLAAOP/883n729/OBz7wAd785jfzkY98\nhBkzZnS67e7g8+QlqQlGjBixylPoesrNcNRc7f02wOfJS1KvZgJWd7O5XpKkijLJS5JUUSZ5SZIq\nyiQvSVJFmeQlSaook7wkSRVlkpckqaJM8pKkpvnMZz7D17/+9W5f77nnnssxxxzT7evtbbwZjiT1\nECf/68nMfHJmw9a/3TbbcdlF9d1w56677uK0005j+vTp9OvXj3e+851cfPHFvPe97+3WmC699NJu\nXV+ttX1ITpWY5CWph5j55ExaPtnS+Yxru/6fzKxrvsWLFzN69Gguv/xyjjjiCF599VXuvPNONtxw\nwzXeZmaabJvI5npJ0kpmzJhBRDBmzBgigg033JD999+fXXbZZZVm8FmzZtGnTx+WL18OwL777stZ\nZ53F3nvvzaabbsoFF1zAHnvssdL6L7roIg4//HAATjjhBM4++2wAhg8fzo033rhivmXLlrHlllty\n//33A3DPPfew1157MXDgQN797nev9BS5mTNnMnLkSDbffHMOPPBAnnnmmcZ8OL2MSV6StJIdd9yR\nvn37cvzxx3PTTTfx3HPPrTS9bc287fBPfvITvv/977N48WJOPvlkZsyYseLxrwCTJ0/m6KOPXmW7\nY8eOZdKkSSuGb7rpJgYPHszuu+/O3LlzOeSQQzj77LNZtGgREyZM4OMf/zgLFy4EYNy4ceyxxx48\n88wznHXWWUycOLHLn0MVmOQlSSsZMGAAd911F3369OHTn/40gwcP5vDDD+fpp5+ua/njjz+ed7zj\nHfTp04fNNtuMww47jMmTJwPFo2AfeeQRRo8evcpy48aNY8qUKbz88stAcTAwduxYAK666ioOPvhg\nDjzwQAA+/OEPM2LECG688UbmzJnDfffdx1e/+lX69+/PPvvs0+7610cmeUnSKnbaaSd++MMfMnv2\nbKZPn86TTz7JF7/4xbqWHTZs2ErDY8eOXZHkJ02axOGHH85GG220ynI77LADw4cPZ+rUqSxdupQp\nU6asqPHPmjWLa665hkGDBjFo0CAGDhzI3Xffzbx583jyyScZOHAgG2+88Yp1tbQ0rm9Db2LHO0lS\nh3bccUeOO+44rrjiCt773veyZMmSFdPmzZu3yvxtm+8POOAAFixYwAMPPMDVV1/NxRdfvNptHXXU\nUUyaNIlly5ax8847s/322wPFgcOxxx7L5Zdfvsoys2fPZtGiRSxdunRFop89ezZ9+liP9ROQJK3k\nkUce4cILL2Tu3LkAzJkzh8mTJ7Pnnnuy2267cccddzBnzhyef/55vvnNb3a6vn79+nHEEUdw6qmn\nsmjRIg444IDVznvUUUdx8803c+mllzJu3LgV4z/5yU8ydepUbr75ZpYvX87LL7/M7bffzpNPPsm2\n227LiBEjOOecc3jttde46667mDp1atc/iAowyUuSVjJgwADuvfde3v/+9zNgwAA++MEPsuuuuzJh\nwgT2339/jjzySHbddVf22GOPVc59r+5yubFjx3LrrbcyZsyYlWrYbeffeuut2XPPPbnnnns48sgj\nV4wfOnQo1113Heeddx6DBw+mpaWFCRMmrOjVf9VVV3HPPfewxRZb8LWvfY3jjjuuuz6OXi0ys9kx\nrLGIyN4YtyS1GjFiBPfdd99K43rSzXDUPO39NqA4IMrMNbrpgOfkJamHMAGru9lcL0lSRZnkJUmq\nKJO8JEkVZZKXJKmiTPKSJFWUSV6SpIryEjpJaoIhQ4YwYsSIZoehHmjIkCHdti5vhiNJUi/gzXDU\n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\n&quot;, 
+<a name="l863"><span class="ln">863  </span></a>      &quot;text/plain&quot;: [ 
+<a name="l864"><span class="ln">864  </span></a>       &quot;&lt;matplotlib.figure.Figure at 0x10b9d7850&gt;&quot; 
+<a name="l865"><span class="ln">865  </span></a>      ] 
+<a name="l866"><span class="ln">866  </span></a>     }, 
+<a name="l867"><span class="ln">867  </span></a>     &quot;metadata&quot;: {}, 
+<a name="l868"><span class="ln">868  </span></a>     &quot;output_type&quot;: &quot;display_data&quot; 
+<a name="l869"><span class="ln">869  </span></a>    } 
+<a name="l870"><span class="ln">870  </span></a>   ], 
+<a name="l871"><span class="ln">871  </span></a>   &quot;source&quot;: [ 
+<a name="l872"><span class="ln">872  </span></a>    &quot;survival_stats(data, outcomes, 'Age', [\&quot;Pclass == 3\&quot;])&quot; 
+<a name="l873"><span class="ln">873  </span></a>   ] 
+<a name="l874"><span class="ln">874  </span></a>  }, 
+<a name="l875"><span class="ln">875  </span></a>  { 
+<a name="l876"><span class="ln">876  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l877"><span class="ln">877  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l878"><span class="ln">878  </span></a>   &quot;source&quot;: [ 
+<a name="l879"><span class="ln">879  </span></a>    &quot;After exploring the survival statistics visualization, fill in the missing code below so that the function will make your prediction.  \n&quot;, 
+<a name="l880"><span class="ln">880  </span></a>    &quot;Make sure to keep track of the various features and conditions you tried before arriving at your final prediction model.  \n&quot;, 
+<a name="l881"><span class="ln">881  </span></a>    &quot;**Hint:** You can start your implementation of this function using the prediction code you wrote earlier from `predictions_2`.&quot; 
+<a name="l882"><span class="ln">882  </span></a>   ] 
+<a name="l883"><span class="ln">883  </span></a>  }, 
+<a name="l884"><span class="ln">884  </span></a>  { 
+<a name="l885"><span class="ln">885  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l886"><span class="ln">886  </span></a>   &quot;execution_count&quot;: 35, 
+<a name="l887"><span class="ln">887  </span></a>   &quot;metadata&quot;: { 
+<a name="l888"><span class="ln">888  </span></a>    &quot;collapsed&quot;: false 
+<a name="l889"><span class="ln">889  </span></a>   }, 
+<a name="l890"><span class="ln">890  </span></a>   &quot;outputs&quot;: [], 
+<a name="l891"><span class="ln">891  </span></a>   &quot;source&quot;: [ 
+<a name="l892"><span class="ln">892  </span></a>    &quot;def predictions_3(data):\n&quot;, 
+<a name="l893"><span class="ln">893  </span></a>    &quot;    \&quot;\&quot;\&quot; Model with multiple features. Makes a prediction with an accuracy of at least 80%. \&quot;\&quot;\&quot;\n&quot;, 
+<a name="l894"><span class="ln">894  </span></a>    &quot;    \n&quot;, 
+<a name="l895"><span class="ln">895  </span></a>    &quot;    predictions = []\n&quot;, 
+<a name="l896"><span class="ln">896  </span></a>    &quot;    for _, passenger in data.iterrows():\n&quot;, 
+<a name="l897"><span class="ln">897  </span></a>    &quot;        \n&quot;, 
+<a name="l898"><span class="ln">898  </span></a>    &quot;        if passenger['Pclass'] == 3 and passenger['Age'] in range(20,80):\n&quot;, 
+<a name="l899"><span class="ln">899  </span></a>    &quot;            predictions.append(0)\n&quot;, 
+<a name="l900"><span class="ln">900  </span></a>    &quot;        else:\n&quot;, 
+<a name="l901"><span class="ln">901  </span></a>    &quot;            predictions. append(passenger['Sex'] == 'female' or \\\n&quot;, 
+<a name="l902"><span class="ln">902  </span></a>    &quot;                            (passenger['Sex'] == 'male' and \\\n&quot;, 
+<a name="l903"><span class="ln">903  </span></a>    &quot;                             passenger['Age'] &lt;= 10))\n&quot;, 
+<a name="l904"><span class="ln">904  </span></a>    &quot;        # Remove the 'pass' statement below \n&quot;, 
+<a name="l905"><span class="ln">905  </span></a>    &quot;        # and write your prediction conditions here\n&quot;, 
+<a name="l906"><span class="ln">906  </span></a>    &quot;        pass\n&quot;, 
+<a name="l907"><span class="ln">907  </span></a>    &quot;    \n&quot;, 
+<a name="l908"><span class="ln">908  </span></a>    &quot;    # Return our predictions\n&quot;, 
+<a name="l909"><span class="ln">909  </span></a>    &quot;    return pd.Series(predictions)\n&quot;, 
+<a name="l910"><span class="ln">910  </span></a>    &quot;\n&quot;, 
+<a name="l911"><span class="ln">911  </span></a>    &quot;# Make the predictions\n&quot;, 
+<a name="l912"><span class="ln">912  </span></a>    &quot;predictions = predictions_3(data)&quot; 
+<a name="l913"><span class="ln">913  </span></a>   ] 
+<a name="l914"><span class="ln">914  </span></a>  }, 
+<a name="l915"><span class="ln">915  </span></a>  { 
+<a name="l916"><span class="ln">916  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l917"><span class="ln">917  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l918"><span class="ln">918  </span></a>   &quot;source&quot;: [ 
+<a name="l919"><span class="ln">919  </span></a>    &quot;### Question 4\n&quot;, 
+<a name="l920"><span class="ln">920  </span></a>    &quot;*Describe the steps you took to implement the final prediction model so that it got an accuracy of at least 80%. What features did you look at? Were certain features more informative than others? Which conditions did you use to split the survival outcomes in the data? How accurate are your predictions?*  \n&quot;, 
+<a name="l921"><span class="ln">921  </span></a>    &quot;**Hint:** Run the code cell below to see the accuracy of your predictions.&quot; 
+<a name="l922"><span class="ln">922  </span></a>   ] 
+<a name="l923"><span class="ln">923  </span></a>  }, 
+<a name="l924"><span class="ln">924  </span></a>  { 
+<a name="l925"><span class="ln">925  </span></a>   &quot;cell_type&quot;: &quot;code&quot;, 
+<a name="l926"><span class="ln">926  </span></a>   &quot;execution_count&quot;: 36, 
+<a name="l927"><span class="ln">927  </span></a>   &quot;metadata&quot;: { 
+<a name="l928"><span class="ln">928  </span></a>    &quot;collapsed&quot;: false 
+<a name="l929"><span class="ln">929  </span></a>   }, 
+<a name="l930"><span class="ln">930  </span></a>   &quot;outputs&quot;: [ 
+<a name="l931"><span class="ln">931  </span></a>    { 
+<a name="l932"><span class="ln">932  </span></a>     &quot;name&quot;: &quot;stdout&quot;, 
+<a name="l933"><span class="ln">933  </span></a>     &quot;output_type&quot;: &quot;stream&quot;, 
+<a name="l934"><span class="ln">934  </span></a>     &quot;text&quot;: [ 
+<a name="l935"><span class="ln">935  </span></a>      &quot;Predictions have an accuracy of 80.36%.\n&quot; 
+<a name="l936"><span class="ln">936  </span></a>     ] 
+<a name="l937"><span class="ln">937  </span></a>    } 
+<a name="l938"><span class="ln">938  </span></a>   ], 
+<a name="l939"><span class="ln">939  </span></a>   &quot;source&quot;: [ 
+<a name="l940"><span class="ln">940  </span></a>    &quot;print accuracy_score(outcomes, predictions)&quot; 
+<a name="l941"><span class="ln">941  </span></a>   ] 
+<a name="l942"><span class="ln">942  </span></a>  }, 
+<a name="l943"><span class="ln">943  </span></a>  { 
+<a name="l944"><span class="ln">944  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l945"><span class="ln">945  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l946"><span class="ln">946  </span></a>   &quot;source&quot;: [ 
+<a name="l947"><span class="ln">947  </span></a>    &quot;**Answer**: *80.36%*&quot; 
+<a name="l948"><span class="ln">948  </span></a>   ] 
+<a name="l949"><span class="ln">949  </span></a>  }, 
+<a name="l950"><span class="ln">950  </span></a>  { 
+<a name="l951"><span class="ln">951  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l952"><span class="ln">952  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l953"><span class="ln">953  </span></a>   &quot;source&quot;: [ 
+<a name="l954"><span class="ln">954  </span></a>    &quot;# Conclusion\n&quot;, 
+<a name="l955"><span class="ln">955  </span></a>    &quot;\n&quot;, 
+<a name="l956"><span class="ln">956  </span></a>    &quot;After several iterations of exploring and conditioning on the data, you have built a useful algorithm for predicting the survival of each passenger aboard the RMS Titanic. The technique applied in this project is a manual implementation of a simple machine learning model, the *decision tree*. A decision tree splits a set of data into smaller and smaller groups (called *nodes*), by one feature at a time. Each time a subset of the data is split, our predictions become more accurate if each of the resulting subgroups are more homogeneous (contain similar labels) than before. The advantage of having a computer do things for us is that it will be more exhaustive and more precise than our manual exploration above. [This link](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/) provides another introduction into machine learning using a decision tree.\n&quot;, 
+<a name="l957"><span class="ln">957  </span></a>    &quot;\n&quot;, 
+<a name="l958"><span class="ln">958  </span></a>    &quot;A decision tree is just one of many models that come from *supervised learning*. In supervised learning, we attempt to use features of the data to predict or model things with objective outcome labels. That is to say, each of our data points has a known outcome value, such as a categorical, discrete label like `'Survived'`, or a numerical, continuous value like predicting the price of a house.\n&quot;, 
+<a name="l959"><span class="ln">959  </span></a>    &quot;\n&quot;, 
+<a name="l960"><span class="ln">960  </span></a>    &quot;### Question 5\n&quot;, 
+<a name="l961"><span class="ln">961  </span></a>    &quot;*Think of a real-world scenario where supervised learning could be applied. What would be the outcome variable that you are trying to predict? Name two features about the data used in this scenario that might be helpful for making the predictions.*  &quot; 
+<a name="l962"><span class="ln">962  </span></a>   ] 
+<a name="l963"><span class="ln">963  </span></a>  }, 
+<a name="l964"><span class="ln">964  </span></a>  { 
+<a name="l965"><span class="ln">965  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l966"><span class="ln">966  </span></a>   &quot;metadata&quot;: { 
+<a name="l967"><span class="ln">967  </span></a>    &quot;collapsed&quot;: true 
+<a name="l968"><span class="ln">968  </span></a>   }, 
+<a name="l969"><span class="ln">969  </span></a>   &quot;source&quot;: [ 
+<a name="l970"><span class="ln">970  </span></a>    &quot;**Answer**: *Predicting whether a customer will buy a product in a shopping mall.   We may need some features such as the customers' age, sex if he or she has ever been to the mall*&quot; 
+<a name="l971"><span class="ln">971  </span></a>   ] 
+<a name="l972"><span class="ln">972  </span></a>  }, 
+<a name="l973"><span class="ln">973  </span></a>  { 
+<a name="l974"><span class="ln">974  </span></a>   &quot;cell_type&quot;: &quot;markdown&quot;, 
+<a name="l975"><span class="ln">975  </span></a>   &quot;metadata&quot;: {}, 
+<a name="l976"><span class="ln">976  </span></a>   &quot;source&quot;: [ 
+<a name="l977"><span class="ln">977  </span></a>    &quot;&gt; **Note**: Once you have completed all of the code implementations and successfully answered each question above, you may finalize your work by exporting the iPython Notebook as an HTML document. You can do this by using the menu above and navigating to  \n&quot;, 
+<a name="l978"><span class="ln">978  </span></a>    &quot;**File -&gt; Download as -&gt; HTML (.html)**. Include the finished document along with this notebook as your submission.&quot; 
+<a name="l979"><span class="ln">979  </span></a>   ] 
+<a name="l980"><span class="ln">980  </span></a>  } 
+<a name="l981"><span class="ln">981  </span></a> ], 
+<a name="l982"><span class="ln">982  </span></a> &quot;metadata&quot;: { 
+<a name="l983"><span class="ln">983  </span></a>  &quot;kernelspec&quot;: { 
+<a name="l984"><span class="ln">984  </span></a>   &quot;display_name&quot;: &quot;Python 2&quot;, 
+<a name="l985"><span class="ln">985  </span></a>   &quot;language&quot;: &quot;python&quot;, 
+<a name="l986"><span class="ln">986  </span></a>   &quot;name&quot;: &quot;python2&quot; 
+<a name="l987"><span class="ln">987  </span></a>  }, 
+<a name="l988"><span class="ln">988  </span></a>  &quot;language_info&quot;: { 
+<a name="l989"><span class="ln">989  </span></a>   &quot;codemirror_mode&quot;: { 
+<a name="l990"><span class="ln">990  </span></a>    &quot;name&quot;: &quot;ipython&quot;, 
+<a name="l991"><span class="ln">991  </span></a>    &quot;version&quot;: 2.0 
+<a name="l992"><span class="ln">992  </span></a>   }, 
+<a name="l993"><span class="ln">993  </span></a>   &quot;file_extension&quot;: &quot;.py&quot;, 
+<a name="l994"><span class="ln">994  </span></a>   &quot;mimetype&quot;: &quot;text/x-python&quot;, 
+<a name="l995"><span class="ln">995  </span></a>   &quot;name&quot;: &quot;python&quot;, 
+<a name="l996"><span class="ln">996  </span></a>   &quot;nbconvert_exporter&quot;: &quot;python&quot;, 
+<a name="l997"><span class="ln">997  </span></a>   &quot;pygments_lexer&quot;: &quot;ipython2&quot;, 
+<a name="l998"><span class="ln">998  </span></a>   &quot;version&quot;: &quot;2.7.11&quot; 
+<a name="l999"><span class="ln">999  </span></a>  } 
+<a name="l1000"><span class="ln">1000 </span></a> }, 
+<a name="l1001"><span class="ln">1001 </span></a> &quot;nbformat&quot;: 4, 
+<a name="l1002"><span class="ln">1002 </span></a> &quot;nbformat_minor&quot;: 0 
+<a name="l1003"><span class="ln">1003 </span></a>}</span></pre>
+</body>
+</html>
