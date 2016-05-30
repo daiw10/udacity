@@ -12157,8 +12157,11 @@ Testing set has 95 samples.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>**Answer: We use the Decision Trees, Naive Bayes and SVM for this problem. All of the can be applied to solve classification problem. 
-Decision Trees: It's easy to use and understand, it can be shown very directly how it works. It's prone to be overfitting and needs some algorithm to correctly stop the growting of the trees
-Naive Bayes: simple and need not too many parameters, it can deal with large datasets. While it uses the features are irrelevant, in fact it isn't as the hypothesis. And we need to know the prior probability.
+As the datasets has many dimensions of features and the features are non-linearity,inferring interaction terms etc, so I tried the Decision Tree method. Addtionally, the complexity of DT is linear with the amount of features. It can be used to classify a large datasets with some features.</p>
+<p>Naive Bayes: It is usually used for judging the spam email or text recognization and so on. I choose this because after preprocessing the many features have been splited and have less relevance. And the complexity of naive bayes is linear most times.</p>
+<p>SVM： It can be used to classify images and so on. As the dataset isn't very large, the SVM can manage and have a high F1 score. So I try to use this method.</p>
+<p>Decision Trees: It's easy to use and understand, it can be shown very directly how it works. It's prone to be overfitting and needs some algorithm to correctly stop the growting of the trees
+Naive Bayes: simple and need not too many parameters, it can deal with large datasets. While it uses the features are totally irrelevant with each other. And we need to know the prior probability.
 SVM：work well in complicated domains where there is a clear margin of seperation. It doesn't work well in very large datasets as the training time happens to be cubic size of datasets, and doesn't perform well or may be overfitting with lots of noise or overlapping class.</p>
 <p>Because it is a supervised classification problem and the above three methods can deal with the problem
 **</p>
@@ -12539,7 +12542,7 @@ F1 score for test set: 0.7634.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:  The training data may construct a 48-dimension space.During the training process, the SVM method try to find the optimized hyperplane to seperate the training data with the largest margin. During the testing process, we just put each test point into the space and check which class it lies in. We make the prediction through this training-testing process. It's like we first use training data to cut the area for each class, and put the testing data to its place and see which class it belongs to.</strong></p>
+<p><strong>Answer:  It's like there are many castles which belongs to N countries in a certain area. Every country want there castles are far from the boundary of any two countries, we may think if not, the two countries may have war with each other. So the boundary of any two country should be as far as possible and the same distance from the nearest castles. The concept of this seperation is SVM, and once we got the boundary, if there comes a new valley, the country can use the boundary to judges which country the valley belongs to, which is like making a prediction of our problem.</strong></p>
 
 </div>
 </div>
